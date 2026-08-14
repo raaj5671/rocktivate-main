@@ -1,4 +1,5 @@
 // Export pages
+export '/splash/splash_widget.dart' show SplashWidget;
 export '/pages/public_feed/public_feed_widget.dart' show PublicFeedWidget;
 export '/pages/needs/needs_widget.dart' show NeedsWidget;
 export '/pages/accomodation/accomodation_widget.dart' show AccomodationWidget;

@@ -103,6 +103,33 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
         loggedInUserFirstName.isNotEmpty && loggedInUserFirstName != 'null'
             ? loggedInUserFirstName
             : 'there';
+    final greetingHour = DateTime.now().hour;
+    final greetingIsDark = Theme.of(context).brightness == Brightness.dark;
+    final String greetingText;
+    final IconData greetingIcon;
+    final Color greetingIconColor;
+    const sunColor = Color(0xFFFFB300);
+    // White reads as a glowing moon against the dark theme's night sky;
+    // on the light theme's cream background it would vanish, so use a
+    // muted slate-blue there instead.
+    const moonColorLight = Color(0xFF5C6470);
+    if (greetingHour >= 5 && greetingHour < 12) {
+      greetingText = 'Good Morning';
+      greetingIcon = Icons.wb_sunny_rounded;
+      greetingIconColor = sunColor;
+    } else if (greetingHour >= 12 && greetingHour < 17) {
+      greetingText = 'Good Afternoon';
+      greetingIcon = Icons.wb_sunny_rounded;
+      greetingIconColor = sunColor;
+    } else if (greetingHour >= 17 && greetingHour < 21) {
+      greetingText = 'Good Evening';
+      greetingIcon = Icons.nights_stay_rounded;
+      greetingIconColor = greetingIsDark ? Colors.white : moonColorLight;
+    } else {
+      greetingText = 'Good Night';
+      greetingIcon = Icons.nights_stay_rounded;
+      greetingIconColor = greetingIsDark ? Colors.white : moonColorLight;
+    }
 
     return GestureDetector(
       onTap: () {
@@ -138,30 +165,42 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Welcome $greetingName,',
-                          style: FlutterFlowTheme.of(context)
-                              .bodyLarge
-                              .override(
-                                font: GoogleFonts.inter(
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .fontStyle,
-                                ),
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                fontSize: 22.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .fontStyle,
-                              ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              greetingIcon,
+                              color: greetingIconColor,
+                              size: 22.0,
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              '$greetingText, $greetingName',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyLarge
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 22.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 28.0),
                         Text(

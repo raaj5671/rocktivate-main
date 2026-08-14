@@ -10,7 +10,6 @@ import '/backend/supabase/supabase.dart';
 import '/auth/base_auth_user_provider.dart';
 
 import '/main.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -152,8 +151,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : const LoginWidget(),
+          builder: (context, _) => SplashWidget(
+            child:
+                appStateNotifier.loggedIn ? NavBarPage() : const LoginWidget(),
+          ),
         ),
         FFRoute(
           name: PublicFeedWidget.routeName,
@@ -340,8 +341,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: HomeWidget.routeName,
           path: HomeWidget.routePath,
           requireAuth: true,
-          builder: (context, params) =>
-              params.isEmpty ? NavBarPage(initialPage: 'Home') : const HomeWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'Home')
+              : const HomeWidget(),
         ),
         FFRoute(
           name: ChatWidget.routeName,
@@ -605,16 +607,25 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+              ? Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/splash_background.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                    Container(color: Colors.black.withValues(alpha: 0.35)),
+                    const Center(
+                      child: SizedBox(
+                        width: 28.0,
+                        height: 28.0,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.2,
+                          valueColor: AlwaysStoppedAnimation(Colors.white70),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 )
               : page;
 
@@ -658,7 +669,8 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() =>
+      const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {
