@@ -196,7 +196,7 @@ class _MoodWheelState extends State<MoodWheel>
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
-                fontSize: 13.0,
+                fontSize: 15.0,
                 height: 1.35,
                 color: theme.secondaryText,
               ),
@@ -210,7 +210,7 @@ class _MoodWheelState extends State<MoodWheel>
             durationLabel,
             key: ValueKey('$currentMood-duration'),
             style: GoogleFonts.inter(
-              fontSize: 11.0,
+              fontSize: 13.0,
               fontWeight: FontWeight.w500,
               color: theme.secondaryText.withValues(alpha: 0.8),
             ),
@@ -356,11 +356,11 @@ class _MoodLabel extends StatelessWidget {
     final labelRadius = radius + 26.0;
     final dx = labelRadius * math.sin(angle);
     final dy = -labelRadius * math.cos(angle);
-    const labelWidth = 84.0;
+    const labelWidth = 92.0;
 
     return Positioned(
       left: areaSize / 2 + dx - labelWidth / 2,
-      top: areaSize / 2 + dy - 8.0,
+      top: areaSize / 2 + dy - 9.0,
       child: SizedBox(
         width: labelWidth,
         child: Text(
@@ -369,7 +369,7 @@ class _MoodLabel extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.inter(
-            fontSize: 12.0,
+            fontSize: 14.0,
             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
             color: selected ? selectedColor : unselectedColor,
           ),

@@ -241,6 +241,12 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
 
                             Widget buildMenuCardContent(
                                 MenuItemsRow listViewMenuItemsRow) {
+                              final isDarkCardContent =
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark;
+                              final cardContentColor = isDarkCardContent
+                                  ? FlutterFlowTheme.of(context).info
+                                  : FlutterFlowTheme.of(context).primaryText;
                               return InkWell(
                                   splashColor: Colors.transparent,
                                   focusColor: Colors.transparent,
@@ -315,9 +321,8 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                                                       .titleLarge
                                                                       .fontStyle,
                                                                 ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .info,
+                                                                color:
+                                                                    cardContentColor,
                                                                 fontSize: 20.0,
                                                                 letterSpacing:
                                                                     0.0,
@@ -355,9 +360,8 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                                                       .labelMedium
                                                                       .fontStyle,
                                                                 ),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .info,
+                                                                color:
+                                                                    cardContentColor,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight: FlutterFlowTheme.of(
@@ -439,8 +443,18 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                   ) {
                                     final listViewMenuItemsRow =
                                         enabledMenuItems[listViewIndex];
-                                    const cardTint = Color(0xFF12161F);
-                                    const cardGold = Color(0xFFD4AF37);
+                                    final isDarkCard =
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark;
+                                    const cardTintDark = Color(0xFF12161F);
+                                    const cardGoldDark = Color(0xFFD4AF37);
+                                    const cardWhiteLight = Color(0xFFFFFFFF);
+                                    const cardGoldLight = Color(0xFFB8823A);
+                                    final cardBg = isDarkCard
+                                        ? cardTintDark
+                                        : cardWhiteLight;
+                                    final cardBgAlpha =
+                                        isDarkCard ? 0.65 : 0.85;
                                     return Container(
                                       width: MediaQuery.sizeOf(context).width *
                                           1.0,
@@ -449,18 +463,30 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                         border: Border.all(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.10),
+                                          color: isDarkCard
+                                              ? Colors.white
+                                                  .withValues(alpha: 0.10)
+                                              : cardGoldLight.withValues(
+                                                  alpha: 0.35),
                                           width: 1.0,
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: cardGold.withValues(
-                                                alpha: 0.28),
-                                            blurRadius: 36.0,
-                                            spreadRadius: 1.0,
-                                          ),
-                                        ],
+                                        boxShadow: isDarkCard
+                                            ? [
+                                                BoxShadow(
+                                                  color: cardGoldDark
+                                                      .withValues(alpha: 0.28),
+                                                  blurRadius: 36.0,
+                                                  spreadRadius: 1.0,
+                                                ),
+                                              ]
+                                            : [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.10),
+                                                  blurRadius: 14.0,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
                                       ),
                                       child: Stack(
                                         fit: StackFit.expand,
@@ -471,7 +497,7 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                           // the glass layer's translucency.
                                           Container(
                                             decoration: BoxDecoration(
-                                              color: cardTint,
+                                              color: cardBg,
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
@@ -488,8 +514,8 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                               borderRadius: 20.0,
                                             ),
                                             settings: LiquidGlassSettings(
-                                              glassColor: cardTint.withValues(
-                                                  alpha: 0.65),
+                                              glassColor: cardBg.withValues(
+                                                  alpha: cardBgAlpha),
                                               standardOpacityMultiplier: 1.0,
                                               thickness: 40,
                                               blur: 16.0,
@@ -499,7 +525,7 @@ class _HomeWidgetState extends State<HomeWidget> with RouteAware {
                                               ambientRim: 0.05,
                                               lightIntensity: 0.6,
                                               refractiveIndex: 1.3,
-                                              shadowElevation: 2.0,
+                                              shadowElevation: 0.0,
                                             ),
                                             child: Material(
                                               color: Colors.transparent,
