@@ -105,7 +105,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
       future: CommunitiesTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
           'UUID',
-          widget!.groupLink,
+          widget.groupLink,
         ),
       ),
       builder: (context, snapshot) {
@@ -160,7 +160,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
               automaticallyImplyLeading: true,
               title: Text(
                 valueOrDefault<String>(
-                  widget!.name,
+                  widget.name,
                   'Group Name',
                 ),
                 style: FlutterFlowTheme.of(context).titleMedium.override(
@@ -197,7 +197,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                       },
                       matchingRows: (rows) => rows.eqOrNull(
                         'UUID',
-                        widget!.groupLink,
+                        widget.groupLink,
                       ),
                     );
                     context.safePop();
@@ -206,10 +206,10 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: Color(0x004B39EF),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0x004B39EF),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FlutterFlowTheme.of(context)
@@ -238,11 +238,11 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textController ??=
@@ -292,14 +292,14 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -355,11 +355,11 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                           CommunityMembersWidget.routeName,
                           queryParameters: {
                             'groupLink': serializeParam(
-                              widget!.groupLink,
+                              widget.groupLink,
                               ParamType.String,
                             ),
                             'name': serializeParam(
-                              widget!.name,
+                              widget.name,
                               ParamType.String,
                             ),
                           }.withoutNulls,
@@ -373,7 +373,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -422,11 +422,11 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                           CommunityMembersWidget.routeName,
                           queryParameters: {
                             'groupLink': serializeParam(
-                              widget!.groupLink,
+                              widget.groupLink,
                               ParamType.String,
                             ),
                             'name': serializeParam(
-                              widget!.name,
+                              widget.name,
                               ParamType.String,
                             ),
                           }.withoutNulls,
@@ -440,7 +440,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -474,7 +474,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                                     communitySettingsCommunitiesRow!.isPrivate!,
                                 onChanged: (newValue) async {
                                   safeSetState(
-                                      () => _model.switchValue = newValue!);
+                                      () => _model.switchValue = newValue);
                                 },
                                 activeColor:
                                     FlutterFlowTheme.of(context).primary,
@@ -496,7 +496,7 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                         width: 150.0,
                         height: 150.0,
                         clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
                         child: Image.network(
@@ -588,10 +588,10 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 48.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
@@ -709,10 +709,10 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 48.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
@@ -739,8 +739,8 @@ class _CommunitySettingsWidgetState extends State<CommunitySettingsWidget>
                       ),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .around(SizedBox(height: 10.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .around(const SizedBox(height: 10.0)),
                 ),
               ),
             ),

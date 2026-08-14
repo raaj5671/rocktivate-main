@@ -182,10 +182,10 @@ packages:
     dependency: "direct main"
     description:
       name: equatable
-      sha256: "567c64b3cb4cf82397aac55f4f0cbd3ca20d77c6c03bedbc4ceaddc08904aef7"
+      sha256: "3bce007a596ff8b3119c45d68aaef631272537c03d30e5d4534dd24bf4c5eaa2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -279,6 +279,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_card_swiper:
+    dependency: "direct main"
+    description:
+      name: flutter_card_swiper
+      sha256: "895c6974729b51cf73a35f1b58ab57a0af3293131319e2cbccac3bc57ffcd69f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -542,6 +550,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  liquid_glass_widgets:
+    dependency: "direct main"
+    description:
+      name: liquid_glass_widgets
+      sha256: f052daec46ae612f1b854c0e9c78c08a532ef4b09bcec30861c813ef100d3dff
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.29.4"
   logging:
     dependency: transitive
     description:
@@ -1238,4 +1254,4 @@ packages:
     version: "2.1.0"
 sdks:
   dart: ">=3.12.0 <4.0.0"
-  flutter: ">=3.35.0"
+  flutter: ">=3.41.0"

@@ -104,7 +104,7 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
       future: FreebiesTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
           'UUID',
-          widget!.freebieLink,
+          widget.freebieLink,
         ),
       ),
       builder: (context, snapshot) {
@@ -162,22 +162,22 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                     gradient: LinearGradient(
                       colors: [
                         FlutterFlowTheme.of(context).oxfordBlue,
-                        Color(0x0039D2C0)
+                        const Color(0x0039D2C0)
                       ],
-                      stops: [0.0, 1.0],
-                      begin: AlignmentDirectional(0.0, -1.0),
-                      end: AlignmentDirectional(0, 1.0),
+                      stops: const [0.0, 1.0],
+                      begin: const AlignmentDirectional(0.0, -1.0),
+                      end: const AlignmentDirectional(0, 1.0),
                     ),
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 30.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -199,7 +199,7 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                                 flex: 1,
                                 child: Text(
                                   valueOrDefault<String>(
-                                    widget!.name,
+                                    widget.name,
                                     'Unknown Item',
                                   ),
                                   textAlign: TextAlign.center,
@@ -227,7 +227,7 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                                       Shadow(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        offset: Offset(2.0, 2.0),
+                                        offset: const Offset(2.0, 2.0),
                                         blurRadius: 15.0,
                                       )
                                     ],
@@ -250,14 +250,14 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                           ),
                         ),
                       ]
-                          .addToStart(SizedBox(height: 20.0))
-                          .addToEnd(SizedBox(height: 20.0)),
+                          .addToStart(const SizedBox(height: 20.0))
+                          .addToEnd(const SizedBox(height: 20.0)),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-                  child: Container(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  child: SizedBox(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: 168.0,
                     child: CarouselSlider(
@@ -338,7 +338,7 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                   flex: 1,
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +420,7 @@ class _FreebieDetailsWidgetState extends State<FreebieDetailsWidget>
                     ),
                   ),
                 ),
-              ].divide(SizedBox(height: 10.0)),
+              ].divide(const SizedBox(height: 10.0)),
             ),
           ),
         );

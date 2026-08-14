@@ -295,7 +295,7 @@ class _MyMessagesWidgetState extends State<MyMessagesWidget>
                             ],
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           child: TextFormField(
                             controller:

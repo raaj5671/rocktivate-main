@@ -60,8 +60,8 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(30.0, 0.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(30.0, 0.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -149,22 +149,22 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                 gradient: LinearGradient(
                   colors: [
                     FlutterFlowTheme.of(context).oxfordBlue,
-                    Color(0x0039D2C0)
+                    const Color(0x0039D2C0)
                   ],
-                  stops: [0.0, 1.0],
-                  begin: AlignmentDirectional(0.0, -1.0),
-                  end: AlignmentDirectional(0, 1.0),
+                  stops: const [0.0, 1.0],
+                  begin: const AlignmentDirectional(0.0, -1.0),
+                  end: const AlignmentDirectional(0, 1.0),
                 ),
               ),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -210,7 +210,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                                   Shadow(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
-                                    offset: Offset(2.0, 2.0),
+                                    offset: const Offset(2.0, 2.0),
                                     blurRadius: 15.0,
                                   )
                                 ],
@@ -232,7 +232,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textFieldAIQuestionTextController,
@@ -281,14 +281,14 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -348,15 +348,15 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                       ),
                     ),
                   ]
-                      .addToStart(SizedBox(height: 20.0))
-                      .addToEnd(SizedBox(height: 20.0)),
+                      .addToStart(const SizedBox(height: 20.0))
+                      .addToEnd(const SizedBox(height: 20.0)),
                 ),
               ),
             ),
             Expanded(
               flex: 1,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FutureBuilder<List<FreebiesRow>>(
                   future: FreebiesTable().queryRows(
                     queryFn: (q) => q.eqOrNull(
@@ -396,7 +396,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
 
                     return GridView.builder(
                       padding: EdgeInsets.zero,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10.0,
                         mainAxisSpacing: 10.0,
@@ -432,7 +432,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                           child: Container(
                             width: 230.0,
                             decoration: BoxDecoration(
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   blurRadius: 4.0,
                                   color: Color(0x34090F13),
@@ -447,20 +447,20 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                                   FlutterFlowTheme.of(context).primary,
                                   FlutterFlowTheme.of(context).secondary
                                 ],
-                                stops: [0.0, 1.0],
-                                begin: AlignmentDirectional(0.0, -1.0),
-                                end: AlignmentDirectional(0, 1.0),
+                                stops: const [0.0, 1.0],
+                                begin: const AlignmentDirectional(0.0, -1.0),
+                                end: const AlignmentDirectional(0, 1.0),
                               ),
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 4.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(0.0),
                                       bottomRight: Radius.circular(0.0),
                                       topLeft: Radius.circular(8.0),
@@ -475,7 +475,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(12.0),
+                                    padding: const EdgeInsets.all(12.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
@@ -494,7 +494,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                                           clipBehavior: Clip.none,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 8.0, 0.0),
                                               child: Text(
                                                 valueOrDefault<String>(
@@ -553,7 +553,7 @@ class _FreeStuffWidgetState extends State<FreeStuffWidget>
                 ),
               ),
             ),
-          ].divide(SizedBox(height: 10.0)),
+          ].divide(const SizedBox(height: 10.0)),
         ),
       ),
     );

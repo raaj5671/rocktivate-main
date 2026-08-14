@@ -85,7 +85,7 @@ class BooksCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Books',
-      apiUrl: '${baseUrl}bibles/${bibleID}/books',
+      apiUrl: '${baseUrl}bibles/$bibleID/books',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
@@ -143,7 +143,7 @@ class ChapterCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Chapter',
-      apiUrl: '${baseUrl}bibles/${bibleID}/books/${bookID}/chapters',
+      apiUrl: '${baseUrl}bibles/$bibleID/books/$bookID/chapters',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
@@ -192,7 +192,7 @@ class ChapterDataCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'ChapterData',
-      apiUrl: '${baseUrl}bibles/${bibleID}/chapters/${chapterID}',
+      apiUrl: '${baseUrl}bibles/$bibleID/chapters/$chapterID',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',

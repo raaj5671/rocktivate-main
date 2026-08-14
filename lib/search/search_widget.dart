@@ -173,29 +173,29 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
             Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: 200.0,
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxHeight: 200.0,
               ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     FlutterFlowTheme.of(context).oxfordBlue,
-                    Color(0x0039D2C0)
+                    const Color(0x0039D2C0)
                   ],
-                  stops: [0.0, 1.0],
-                  begin: AlignmentDirectional(0.0, -1.0),
-                  end: AlignmentDirectional(0, 1.0),
+                  stops: const [0.0, 1.0],
+                  begin: const AlignmentDirectional(0.0, -1.0),
+                  end: const AlignmentDirectional(0, 1.0),
                 ),
               ),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 30.0),
                       child: Text(
                         'Rocktivate',
                         style:
@@ -219,14 +219,14 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                           shadows: [
                             Shadow(
                               color: FlutterFlowTheme.of(context).secondaryText,
-                              offset: Offset(2.0, 2.0),
+                              offset: const Offset(2.0, 2.0),
                               blurRadius: 10.0,
                             )
                           ],
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textFieldAIQuestionTextController,
@@ -294,14 +294,14 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -360,7 +360,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                         ],
                       ),
                     ),
-                  ].addToEnd(SizedBox(height: 20.0)),
+                  ].addToEnd(const SizedBox(height: 20.0)),
                 ),
               ),
             ),
@@ -377,7 +377,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                       color: FlutterFlowTheme.of(context).primaryBackground,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,7 +490,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 bottomLeft:
                                                     Radius.circular(0.0),
                                                 bottomRight:
@@ -523,7 +523,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                                     flex: 1,
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   5.0,
                                                                   0.0,
@@ -576,13 +576,13 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                           ],
                                         ),
                                       );
-                                    }).divide(SizedBox(width: 10.0)),
+                                    }).divide(const SizedBox(width: 10.0)),
                                   ),
                                 );
                               },
                             ),
                           ),
-                        ].divide(SizedBox(height: 10.0)),
+                        ].divide(const SizedBox(height: 10.0)),
                       ),
                     ),
                   ),
@@ -594,7 +594,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                       color: FlutterFlowTheme.of(context).primaryBackground,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -707,7 +707,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 bottomLeft:
                                                     Radius.circular(0.0),
                                                 bottomRight:
@@ -740,7 +740,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                                     flex: 1,
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   5.0,
                                                                   0.0,
@@ -792,13 +792,13 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                           ],
                                         ),
                                       );
-                                    }).divide(SizedBox(width: 10.0)),
+                                    }).divide(const SizedBox(width: 10.0)),
                                   ),
                                 );
                               },
                             ),
                           ),
-                        ].divide(SizedBox(height: 10.0)),
+                        ].divide(const SizedBox(height: 10.0)),
                       ),
                     ),
                   ),
@@ -810,7 +810,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                       color: FlutterFlowTheme.of(context).primaryBackground,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -922,7 +922,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 bottomLeft:
                                                     Radius.circular(0.0),
                                                 bottomRight:
@@ -956,7 +956,7 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                                     flex: 1,
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   5.0,
                                                                   0.0,
@@ -1008,13 +1008,13 @@ class _SearchWidgetState extends State<SearchWidget> with RouteAware {
                                           ],
                                         ),
                                       );
-                                    }).divide(SizedBox(width: 10.0)),
+                                    }).divide(const SizedBox(width: 10.0)),
                                   ),
                                 );
                               },
                             ),
                           ),
-                        ].divide(SizedBox(height: 10.0)),
+                        ].divide(const SizedBox(height: 10.0)),
                       ),
                     ),
                   ),

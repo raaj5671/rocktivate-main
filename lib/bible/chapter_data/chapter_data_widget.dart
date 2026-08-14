@@ -18,7 +18,7 @@ class ChapterDataWidget extends StatefulWidget {
     String? title,
     required this.bibleid,
     required this.chapterid,
-  }) : this.title = title ?? 'Books';
+  }) : title = title ?? 'Books';
 
   final String title;
   final String? bibleid;
@@ -128,18 +128,18 @@ class _ChapterDataWidgetState extends State<ChapterDataWidget> with RouteAware {
                   fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future: BibleAPIGroup.chapterDataCall.call(
-                bibleID: widget!.bibleid,
-                chapterID: widget!.chapterid,
+                bibleID: widget.bibleid,
+                chapterID: widget.chapterid,
               ),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
@@ -196,8 +196,8 @@ class _ChapterDataWidgetState extends State<ChapterDataWidget> with RouteAware {
                       ),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .around(SizedBox(height: 10.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .around(const SizedBox(height: 10.0)),
                 );
               },
             ),

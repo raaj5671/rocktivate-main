@@ -109,7 +109,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
       future: FreebiesTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
           'UUID',
-          widget!.freebieLink,
+          widget.freebieLink,
         ),
       ),
       builder: (context, snapshot) {
@@ -163,7 +163,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
               automaticallyImplyLeading: true,
               title: Text(
                 valueOrDefault<String>(
-                  widget!.name,
+                  widget.name,
                   'New Freebie',
                 ),
                 style: FlutterFlowTheme.of(context).titleMedium.override(
@@ -195,7 +195,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                       },
                       matchingRows: (rows) => rows.eqOrNull(
                         'UUID',
-                        widget!.freebieLink,
+                        widget.freebieLink,
                       ),
                     );
                     context.safePop();
@@ -204,10 +204,10 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: Color(0x004B39EF),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0x004B39EF),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FlutterFlowTheme.of(context)
@@ -236,11 +236,11 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textFieldTitleTextController ??=
@@ -290,14 +290,14 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -343,7 +343,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                             .asValidator(context),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller:
@@ -394,14 +394,14 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -459,11 +459,11 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                           CommunityMembersWidget.routeName,
                           queryParameters: {
                             'groupLink': serializeParam(
-                              widget!.freebieLink,
+                              widget.freebieLink,
                               ParamType.String,
                             ),
                             'name': serializeParam(
-                              widget!.name,
+                              widget.name,
                               ParamType.String,
                             ),
                           }.withoutNulls,
@@ -477,7 +477,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -511,7 +511,7 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                                     freebieSettingsFreebiesRow!.isAvailable!,
                                 onChanged: (newValue) async {
                                   safeSetState(
-                                      () => _model.switchValue = newValue!);
+                                      () => _model.switchValue = newValue);
                                 },
                                 activeColor:
                                     FlutterFlowTheme.of(context).primary,
@@ -529,8 +529,8 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-                      child: Container(
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                      child: SizedBox(
                         width: double.infinity,
                         height: 112.0,
                         child: CarouselSlider(
@@ -671,10 +671,10 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 48.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
@@ -701,8 +701,8 @@ class _FreebieSettingsWidgetState extends State<FreebieSettingsWidget>
                       ),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .around(SizedBox(height: 10.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .around(const SizedBox(height: 10.0)),
                 ),
               ),
             ),

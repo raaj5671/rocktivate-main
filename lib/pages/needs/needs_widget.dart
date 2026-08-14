@@ -121,22 +121,22 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                     gradient: LinearGradient(
                       colors: [
                         FlutterFlowTheme.of(context).primary,
-                        Color(0x0039D2C0)
+                        const Color(0x0039D2C0)
                       ],
-                      stops: [0.0, 1.0],
-                      begin: AlignmentDirectional(0.0, -1.0),
-                      end: AlignmentDirectional(0, 1.0),
+                      stops: const [0.0, 1.0],
+                      begin: const AlignmentDirectional(0.0, -1.0),
+                      end: const AlignmentDirectional(0, 1.0),
                     ),
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 30.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -184,7 +184,7 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                       Shadow(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        offset: Offset(2.0, 2.0),
+                                        offset: const Offset(2.0, 2.0),
                                         blurRadius: 15.0,
                                       )
                                     ],
@@ -217,11 +217,11 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
-                                            child: Container(
+                                            child: SizedBox(
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
                                                   0.65,
-                                              child: CreateNewNeedWidget(),
+                                              child: const CreateNewNeedWidget(),
                                             ),
                                           ),
                                         ),
@@ -234,8 +234,8 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                           ),
                         ),
                       ]
-                          .addToStart(SizedBox(height: 20.0))
-                          .addToEnd(SizedBox(height: 20.0)),
+                          .addToStart(const SizedBox(height: 20.0))
+                          .addToEnd(const SizedBox(height: 20.0)),
                     ),
                   ),
                 ),
@@ -254,13 +254,13 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                   ))
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 8.0, 8.0),
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 8.0, 8.0),
                       child: Container(
                         width: 300.0,
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: 300.0,
                         ),
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Visibility(
                           visible: responsiveVisibility(
                             context: context,
@@ -281,7 +281,7 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                     .secondaryBackground,
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Column(
+                              child: const Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [],
                               ),
@@ -293,14 +293,14 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                   Expanded(
                     flex: 2,
                     child: Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: Container(
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           height: MediaQuery.sizeOf(context).height * 1.0,
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           child: FutureBuilder<List<NeedsRow>>(
                             future: NeedsTable().queryRows(
                               queryFn: (q) => q.eqOrNull(
@@ -353,13 +353,13 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                       wrapNeedsRowList[wrapIndex];
                                   return Container(
                                     width: double.infinity,
-                                    constraints: BoxConstraints(
+                                    constraints: const BoxConstraints(
                                       maxWidth: 360.0,
                                     ),
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
-                                      boxShadow: [
+                                      boxShadow: const [
                                         BoxShadow(
                                           blurRadius: 7.0,
                                           color: Color(0x2F1D2429),
@@ -372,7 +372,7 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16.0, 12.0, 16.0, 12.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -409,14 +409,14 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                                           .fontStyle,
                                                 ),
                                           ),
-                                          Divider(
+                                          const Divider(
                                             height: 16.0,
                                             thickness: 2.0,
                                             color: Color(0xFFF1F4F8),
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 4.0, 0.0, 0.0),
                                             child: Text(
                                               valueOrDefault<String>(
@@ -475,13 +475,13 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                   ))
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 16.0, 8.0),
+                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 16.0, 8.0),
                       child: Container(
                         width: 300.0,
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: 300.0,
                         ),
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Visibility(
                           visible: responsiveVisibility(
                             context: context,
@@ -502,7 +502,7 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                                     .secondaryBackground,
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Column(
+                              child: const Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [],
                               ),
@@ -514,7 +514,7 @@ class _NeedsWidgetState extends State<NeedsWidget> with RouteAware {
                 ],
               ),
             ),
-          ].divide(SizedBox(height: 10.0)),
+          ].divide(const SizedBox(height: 10.0)),
         ),
       ),
     );

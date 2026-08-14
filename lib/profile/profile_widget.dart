@@ -114,13 +114,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: Align(
-          alignment: AlignmentDirectional(0.0, 0.0),
+          alignment: const AlignmentDirectional(0.0, 0.0),
           child: FutureBuilder<List<PeopleRow>>(
             future: PeopleTable().querySingleRow(
               queryFn: (q) => q.eqOrNull(
                 'UUID',
-                widget!.id != null && widget!.id != ''
-                    ? widget!.id
+                widget.id != null && widget.id != ''
+                    ? widget.id
                     : FFAppState().LoggedInUserUUID,
               ),
             ),
@@ -156,10 +156,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
               debugLogWidgetClass(_model);
 
               return Container(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxWidth: 570.0,
                 ),
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -172,22 +172,22 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             gradient: LinearGradient(
                               colors: [
                                 FlutterFlowTheme.of(context).oxfordBlue,
-                                Color(0x0039D2C0)
+                                const Color(0x0039D2C0)
                               ],
-                              stops: [0.0, 1.0],
-                              begin: AlignmentDirectional(0.0, -1.0),
-                              end: AlignmentDirectional(0, 1.0),
+                              stops: const [0.0, 1.0],
+                              begin: const AlignmentDirectional(0.0, -1.0),
+                              end: const AlignmentDirectional(0, 1.0),
                             ),
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 10.0, 0.0, 10.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 30.0, 0.0, 0.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -227,7 +227,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
-                                                offset: Offset(2.0, 2.0),
+                                                offset: const Offset(2.0, 2.0),
                                                 blurRadius: 15.0,
                                               )
                                             ],
@@ -247,7 +247,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                         children: [
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 12.0),
                                             child: Text(
                                               '24k',
@@ -324,7 +324,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
                                       child: Container(
                                         width: 100.0,
@@ -337,19 +337,19 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               FlutterFlowTheme.of(context)
                                                   .tertiary
                                             ],
-                                            stops: [0.0, 1.0],
+                                            stops: const [0.0, 1.0],
                                             begin:
-                                                AlignmentDirectional(1.0, -1.0),
+                                                const AlignmentDirectional(1.0, -1.0),
                                             end:
-                                                AlignmentDirectional(-1.0, 1.0),
+                                                const AlignmentDirectional(-1.0, 1.0),
                                           ),
                                           shape: BoxShape.circle,
                                         ),
                                         child: Align(
                                           alignment:
-                                              AlignmentDirectional(0.0, 0.0),
+                                              const AlignmentDirectional(0.0, 0.0),
                                           child: Padding(
-                                            padding: EdgeInsets.all(4.0),
+                                            padding: const EdgeInsets.all(4.0),
                                             child: Container(
                                               width: 100.0,
                                               height: 100.0,
@@ -360,7 +360,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                 shape: BoxShape.circle,
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.all(4.0),
+                                                padding: const EdgeInsets.all(4.0),
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -385,7 +385,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                         children: [
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 12.0),
                                             child: Text(
                                               '152',
@@ -464,8 +464,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   ],
                                 ),
                               ]
-                                  .addToStart(SizedBox(height: 20.0))
-                                  .addToEnd(SizedBox(height: 20.0)),
+                                  .addToStart(const SizedBox(height: 20.0))
+                                  .addToEnd(const SizedBox(height: 20.0)),
                             ),
                           ),
                         ),
@@ -473,7 +473,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                       child: Text(
                         FFAppState().LoggedInUserFullName,
                         textAlign: TextAlign.center,
@@ -501,10 +501,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 0.0),
                       child: GradientText(
                         valueOrDefault<String>(
-                          maxWidthPeopleRow?.email,
+                          maxWidthPeopleRow.email,
                           'User Email Address',
                         ),
                         style: FlutterFlowTheme.of(context).labelSmall.override(
@@ -532,7 +532,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                       child: Container(
                         decoration: BoxDecoration(
                           color:
@@ -545,13 +545,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             Expanded(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Container(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SizedBox(
                                   width: 100.0,
                                   child: TextFormField(
                                     controller: _model.textController ??=
                                         TextEditingController(
-                                      text: maxWidthPeopleRow?.bio,
+                                      text: maxWidthPeopleRow.bio,
                                     ),
                                     focusNode: _model.textFieldFocusNode,
                                     autofocus: false,
@@ -608,7 +608,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                     .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0x00000000),
                                           width: 1.0,
                                         ),
@@ -616,7 +616,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             BorderRadius.circular(8.0),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Color(0x00000000),
                                           width: 1.0,
                                         ),
@@ -693,7 +693,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 ),
                                 onPressed: () async {
                                   if (FFAppState().LoggedInUserUUID ==
-                                      maxWidthPeopleRow?.uuid) {
+                                      maxWidthPeopleRow.uuid) {
                                     HapticFeedback.lightImpact();
                                     _model.bioDisabled = false;
                                     safeSetState(() {});
@@ -714,7 +714,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               HapticFeedback.lightImpact();
                               safeSetState(() {
                                 _model.textController?.text =
-                                    maxWidthPeopleRow!.bio!;
+                                    maxWidthPeopleRow.bio!;
                               });
                               _model.bioDisabled = true;
                               safeSetState(() {});
@@ -723,9 +723,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             options: FFButtonOptions(
                               width: 100.0,
                               height: 24.4,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
@@ -762,7 +762,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 },
                                 matchingRows: (rows) => rows.eqOrNull(
                                   'UUID',
-                                  maxWidthPeopleRow?.uuid,
+                                  maxWidthPeopleRow.uuid,
                                 ),
                               );
                               _model.bioDisabled = true;
@@ -772,9 +772,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             options: FFButtonOptions(
                               width: 100.0,
                               height: 24.4,
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
@@ -806,10 +806,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         ],
                       ),
                     if (FFAppState().LoggedInUserUUID !=
-                        maxWidthPeopleRow?.uuid)
+                        maxWidthPeopleRow.uuid)
                       Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -822,9 +822,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               options: FFButtonOptions(
                                 width: 100.0,
                                 height: 40.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).yaleBlue,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -859,9 +859,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               options: FFButtonOptions(
                                 width: 100.0,
                                 height: 40.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).error,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -894,14 +894,14 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     Expanded(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 44.0, 0.0, 0.0),
                         child: Container(
                           width: double.infinity,
                           height: 400.0,
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 blurRadius: 3.0,
                                 color: Color(0x33000000),
@@ -911,7 +911,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 ),
                               )
                             ],
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(0.0),
                               bottomRight: Radius.circular(0.0),
                               topLeft: Radius.circular(16.0),
@@ -924,7 +924,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.all(16.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
@@ -958,10 +958,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                       ),
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                            const AlignmentDirectional(0.0, 0.0),
                                         child: Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 16.0, 0.0, 0.0),
                                           child: Wrap(
                                             spacing: 16.0,
@@ -996,7 +996,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   ),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(12.0),
+                                                  padding: const EdgeInsets.all(12.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -1047,7 +1047,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 ),
                                                       ),
                                                     ].divide(
-                                                        SizedBox(height: 10.0)),
+                                                        const SizedBox(height: 10.0)),
                                                   ),
                                                 ),
                                               ),
@@ -1072,7 +1072,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   ),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(12.0),
+                                                  padding: const EdgeInsets.all(12.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -1123,7 +1123,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 ),
                                                       ),
                                                     ].divide(
-                                                        SizedBox(height: 10.0)),
+                                                        const SizedBox(height: 10.0)),
                                                   ),
                                                 ),
                                               ),
@@ -1139,7 +1139,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                         .routeName,
                                                     extra: <String, dynamic>{
                                                       kTransitionInfoKey:
-                                                          TransitionInfo(
+                                                          const TransitionInfo(
                                                         hasTransition: true,
                                                         transitionType:
                                                             PageTransitionType
@@ -1173,7 +1173,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsets.all(12.0),
+                                                        const EdgeInsets.all(12.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1221,7 +1221,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     .fontStyle,
                                                               ),
                                                         ),
-                                                      ].divide(SizedBox(
+                                                      ].divide(const SizedBox(
                                                           height: 10.0)),
                                                     ),
                                                   ),
@@ -1240,7 +1240,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                     MyFreebiesWidget.routeName,
                                                     extra: <String, dynamic>{
                                                       kTransitionInfoKey:
-                                                          TransitionInfo(
+                                                          const TransitionInfo(
                                                         hasTransition: true,
                                                         transitionType:
                                                             PageTransitionType
@@ -1274,7 +1274,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsets.all(12.0),
+                                                        const EdgeInsets.all(12.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1322,7 +1322,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     .fontStyle,
                                                               ),
                                                         ),
-                                                      ].divide(SizedBox(
+                                                      ].divide(const SizedBox(
                                                           height: 10.0)),
                                                     ),
                                                   ),
@@ -1342,12 +1342,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                       BorderRadius.circular(
                                                           24.0),
                                                   border: Border.all(
-                                                    color: Color(0xFF2847FF),
+                                                    color: const Color(0xFF2847FF),
                                                     width: 5.0,
                                                   ),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(12.0),
+                                                  padding: const EdgeInsets.all(12.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -1397,7 +1397,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 ),
                                                       ),
                                                     ].divide(
-                                                        SizedBox(height: 10.0)),
+                                                        const SizedBox(height: 10.0)),
                                                   ),
                                                 ),
                                               ),
@@ -1415,12 +1415,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                       BorderRadius.circular(
                                                           24.0),
                                                   border: Border.all(
-                                                    color: Color(0xFF535353),
+                                                    color: const Color(0xFF535353),
                                                     width: 5.0,
                                                   ),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(12.0),
+                                                  padding: const EdgeInsets.all(12.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -1470,7 +1470,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 ),
                                                       ),
                                                     ].divide(
-                                                        SizedBox(height: 10.0)),
+                                                        const SizedBox(height: 10.0)),
                                                   ),
                                                 ),
                                               ),
@@ -1487,7 +1487,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                         ),
                       ),
                     ),
-                  ].divide(SizedBox(height: 10.0)),
+                  ].divide(const SizedBox(height: 10.0)),
                 ),
               );
             },

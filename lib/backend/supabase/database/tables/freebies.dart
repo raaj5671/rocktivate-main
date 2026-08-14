@@ -9,7 +9,7 @@ class FreebiesTable extends SupabaseTable<FreebiesRow> {
 }
 
 class FreebiesRow extends SupabaseDataRow {
-  FreebiesRow(Map<String, dynamic> data) : super(data);
+  FreebiesRow(super.data);
 
   @override
   SupabaseTable get table => FreebiesTable();

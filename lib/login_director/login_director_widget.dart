@@ -95,7 +95,7 @@ class _LoginDirectorWidgetState extends State<LoginDirectorWidget>
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: SafeArea(
+        body: const SafeArea(
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,

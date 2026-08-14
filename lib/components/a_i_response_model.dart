@@ -1,15 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import 'a_i_response_widget.dart' show AIResponseWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class AIResponseModel extends FlutterFlowModel<AIResponseWidget> {
   ///  Local state fields for this component.

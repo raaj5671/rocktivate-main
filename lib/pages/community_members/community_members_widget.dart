@@ -69,8 +69,8 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -88,8 +88,8 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -174,7 +174,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
           automaticallyImplyLeading: true,
           title: Text(
             valueOrDefault<String>(
-              widget!.name,
+              widget.name,
               'Group Name',
             ),
             style: FlutterFlowTheme.of(context).titleMedium.override(
@@ -191,14 +191,14 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                   fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -206,7 +206,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                   child: Column(
                     children: [
                       Align(
-                        alignment: Alignment(0.0, 0),
+                        alignment: const Alignment(0.0, 0),
                         child: TabBar(
                           labelColor: FlutterFlowTheme.of(context).primaryText,
                           unselectedLabelColor:
@@ -248,7 +248,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                         .fontStyle,
                                   ),
                           indicatorColor: FlutterFlowTheme.of(context).yaleBlue,
-                          tabs: [
+                          tabs: const [
                             Tab(
                               text: 'Members',
                             ),
@@ -277,7 +277,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                         .queryRows(
                                       queryFn: (q) => q.eqOrNull(
                                         'CommunityLink',
-                                        widget!.groupLink,
+                                        widget.groupLink,
                                       ),
                                     ),
                                     builder: (context, snapshot) {
@@ -316,14 +316,14 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                       debugLogWidgetClass(_model);
 
                                       return ListView.separated(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 10.0),
                                         scrollDirection: Axis.vertical,
                                         itemCount:
                                             listViewCommunityMembersWithFullNameRowList
                                                 .length,
                                         separatorBuilder: (_, __) =>
-                                            SizedBox(height: 10.0),
+                                            const SizedBox(height: 10.0),
                                         itemBuilder: (context, listViewIndex) {
                                           final listViewCommunityMembersWithFullNameRow =
                                               listViewCommunityMembersWithFullNameRowList[
@@ -338,7 +338,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(12.0),
+                                              padding: const EdgeInsets.all(12.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -359,7 +359,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                   Expanded(
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   16.0,
                                                                   0.0,
@@ -430,7 +430,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                         .labelSmall
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFF57636C),
                                                                   fontSize:
                                                                       12.0,
@@ -469,7 +469,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                   return WebViewAware(
                                                                     child:
                                                                         AlertDialog(
-                                                                      title: Text(
+                                                                      title: const Text(
                                                                           'Remove Person?'),
                                                                       content: Text(
                                                                           'Remove ${listViewCommunityMembersWithFullNameRow.fullName} from group?'),
@@ -479,14 +479,14 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                               alertDialogContext,
                                                                               false),
                                                                           child:
-                                                                              Text('Cancel'),
+                                                                              const Text('Cancel'),
                                                                         ),
                                                                         TextButton(
                                                                           onPressed: () => Navigator.pop(
                                                                               alertDialogContext,
                                                                               true),
                                                                           child:
-                                                                              Text('Remove'),
+                                                                              const Text('Remove'),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -544,7 +544,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                         .queryRows(
                                       queryFn: (q) => q.eqOrNull(
                                         'CommunityLink',
-                                        widget!.groupLink,
+                                        widget.groupLink,
                                       ),
                                     ),
                                     builder: (context, snapshot) {
@@ -583,14 +583,14 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                       debugLogWidgetClass(_model);
 
                                       return ListView.separated(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 10.0),
                                         scrollDirection: Axis.vertical,
                                         itemCount:
                                             listViewCommunityRequestsWithFullNameRowList
                                                 .length,
                                         separatorBuilder: (_, __) =>
-                                            SizedBox(height: 10.0),
+                                            const SizedBox(height: 10.0),
                                         itemBuilder: (context, listViewIndex) {
                                           final listViewCommunityRequestsWithFullNameRow =
                                               listViewCommunityRequestsWithFullNameRowList[
@@ -605,7 +605,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(12.0),
+                                              padding: const EdgeInsets.all(12.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 crossAxisAlignment:
@@ -625,7 +625,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                   Expanded(
                                                     child: Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   16.0,
                                                                   0.0,
@@ -686,7 +686,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                         .labelSmall
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFF57636C),
                                                                   fontSize:
                                                                       12.0,
@@ -707,7 +707,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 10.0, 0.0),
                                                     child: InkWell(
@@ -730,7 +730,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                     return WebViewAware(
                                                                       child:
                                                                           AlertDialog(
-                                                                        title: Text(
+                                                                        title: const Text(
                                                                             'Decline Request?'),
                                                                         content:
                                                                             Text('Deny ${listViewCommunityRequestsWithFullNameRow.fullName} access to the group?'),
@@ -739,13 +739,13 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                             onPressed: () =>
                                                                                 Navigator.pop(alertDialogContext, false),
                                                                             child:
-                                                                                Text('Cancel'),
+                                                                                const Text('Cancel'),
                                                                           ),
                                                                           TextButton(
                                                                             onPressed: () =>
                                                                                 Navigator.pop(alertDialogContext, true),
                                                                             child:
-                                                                                Text('Decline'),
+                                                                                const Text('Decline'),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -801,7 +801,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                   return WebViewAware(
                                                                     child:
                                                                         AlertDialog(
-                                                                      title: Text(
+                                                                      title: const Text(
                                                                           'Add to Group?'),
                                                                       content: Text(
                                                                           'Add ${listViewCommunityRequestsWithFullNameRow.fullName} to the group?'),
@@ -811,14 +811,14 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                                                                               alertDialogContext,
                                                                               false),
                                                                           child:
-                                                                              Text('Cancel'),
+                                                                              const Text('Cancel'),
                                                                         ),
                                                                         TextButton(
                                                                           onPressed: () => Navigator.pop(
                                                                               alertDialogContext,
                                                                               true),
                                                                           child:
-                                                                              Text('Confirm'),
+                                                                              const Text('Confirm'),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -880,7 +880,7 @@ class _CommunityMembersWidgetState extends State<CommunityMembersWidget>
                     ],
                   ),
                 ),
-              ].divide(SizedBox(height: 10.0)).around(SizedBox(height: 10.0)),
+              ].divide(const SizedBox(height: 10.0)).around(const SizedBox(height: 10.0)),
             ),
           ),
         ),

@@ -54,8 +54,8 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -157,7 +157,7 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
           ),
           actions: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
               child: FlutterFlowIconButton(
                 borderRadius: 8.0,
                 buttonSize: 40.0,
@@ -186,7 +186,7 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
                       ),
                     }.withoutNulls,
                     extra: <String, dynamic>{
-                      kTransitionInfoKey: TransitionInfo(
+                      kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
                         transitionType: PageTransitionType.fade,
                         duration: Duration(milliseconds: 0),
@@ -205,7 +205,7 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -250,11 +250,11 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
                       debugLogWidgetClass(_model);
 
                       return ListView.separated(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemCount: listViewFreebiesRowList.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                        separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                         itemBuilder: (context, listViewIndex) {
                           final listViewFreebiesRow =
                               listViewFreebiesRowList[listViewIndex];
@@ -279,7 +279,7 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
                                   ),
                                 }.withoutNulls,
                                 extra: <String, dynamic>{
-                                  kTransitionInfoKey: TransitionInfo(
+                                  kTransitionInfoKey: const TransitionInfo(
                                     hasTransition: true,
                                     transitionType: PageTransitionType.fade,
                                     duration: Duration(milliseconds: 0),
@@ -295,14 +295,14 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(12.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             16.0, 0.0, 0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -376,7 +376,7 @@ class _MyFreebiesWidgetState extends State<MyFreebiesWidget>
                     },
                   ),
                 ),
-              ].divide(SizedBox(height: 10.0)).around(SizedBox(height: 10.0)),
+              ].divide(const SizedBox(height: 10.0)).around(const SizedBox(height: 10.0)),
             ),
           ),
         ),

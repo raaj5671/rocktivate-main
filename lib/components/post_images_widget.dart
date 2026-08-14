@@ -113,7 +113,7 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
               ),
               child: Visibility(
                 visible: valueOrDefault<bool>(
-                  widget!.images?.length == 1,
+                  widget.images?.length == 1,
                   false,
                 ),
                 child: InkWell(
@@ -128,23 +128,23 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
                         type: PageTransitionType.fade,
                         child: FlutterFlowExpandedImageView(
                           image: Image.network(
-                            widget!.images!.firstOrNull!,
+                            widget.images!.firstOrNull!,
                             fit: BoxFit.contain,
                           ),
                           allowRotation: false,
-                          tag: widget!.images!.firstOrNull!,
+                          tag: widget.images!.firstOrNull!,
                           useHeroAnimation: true,
                         ),
                       ),
                     );
                   },
                   child: Hero(
-                    tag: widget!.images!.firstOrNull!,
+                    tag: widget.images!.firstOrNull!,
                     transitionOnUserGestures: true,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
-                        widget!.images!.firstOrNull!,
+                        widget.images!.firstOrNull!,
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: MediaQuery.sizeOf(context).height * 1.0,
                         fit: BoxFit.contain,
@@ -156,12 +156,12 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
             ),
           ),
           if (valueOrDefault<bool>(
-            widget!.images!.length > 1,
+            widget.images!.length > 1,
             false,
           ))
             Builder(
               builder: (context) {
-                final image = widget!.images!.toList();
+                final image = widget.images!.toList();
                 _model.debugGeneratorVariables[
                         'image${image.length > 100 ? ' (first 100)' : ''}'] =
                     debugSerializeParam(
@@ -175,7 +175,7 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
                 );
                 debugLogWidgetClass(_model);
 
-                return Container(
+                return SizedBox(
                   width: double.infinity,
                   height: MediaQuery.sizeOf(context).height * 1.0,
                   child: Stack(
@@ -243,9 +243,9 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
                         },
                       ),
                       Align(
-                        alignment: AlignmentDirectional(0.0, 1.0),
+                        alignment: const AlignmentDirectional(0.0, 1.0),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 16.0),
                           child: smooth_page_indicator.SmoothPageIndicator(
                             controller:
@@ -260,7 +260,7 @@ class _PostImagesWidgetState extends State<PostImagesWidget> with RouteAware {
                             onDotClicked: (i) async {
                               await _model.pageViewController!.animateToPage(
                                 i,
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
                               );
                               safeSetState(() {});

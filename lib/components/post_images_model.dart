@@ -1,15 +1,6 @@
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'
-    as smooth_page_indicator;
 import 'post_images_widget.dart' show PostImagesWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 
 class PostImagesModel extends FlutterFlowModel<PostImagesWidget> {
   ///  State fields for stateful widgets in this component.

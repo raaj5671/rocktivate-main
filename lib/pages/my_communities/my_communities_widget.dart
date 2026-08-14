@@ -54,8 +54,8 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -157,7 +157,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
           ),
           actions: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
               child: FlutterFlowIconButton(
                 borderRadius: 8.0,
                 buttonSize: 40.0,
@@ -190,7 +190,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                       ),
                     }.withoutNulls,
                     extra: <String, dynamic>{
-                      kTransitionInfoKey: TransitionInfo(
+                      kTransitionInfoKey: const TransitionInfo(
                         hasTransition: true,
                         transitionType: PageTransitionType.fade,
                         duration: Duration(milliseconds: 0),
@@ -209,7 +209,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -254,10 +254,10 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                       debugLogWidgetClass(_model);
 
                       return ListView.separated(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         scrollDirection: Axis.vertical,
                         itemCount: listViewCommunitiesRowList.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                        separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                         itemBuilder: (context, listViewIndex) {
                           final listViewCommunitiesRow =
                               listViewCommunitiesRowList[listViewIndex];
@@ -282,7 +282,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                                   ),
                                 }.withoutNulls,
                                 extra: <String, dynamic>{
-                                  kTransitionInfoKey: TransitionInfo(
+                                  kTransitionInfoKey: const TransitionInfo(
                                     hasTransition: true,
                                     transitionType: PageTransitionType.fade,
                                     duration: Duration(milliseconds: 0),
@@ -298,7 +298,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(12.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -320,7 +320,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                                     ),
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             16.0, 0.0, 0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -394,7 +394,7 @@ class _MyCommunitiesWidgetState extends State<MyCommunitiesWidget>
                     },
                   ),
                 ),
-              ].divide(SizedBox(height: 10.0)).around(SizedBox(height: 10.0)),
+              ].divide(const SizedBox(height: 10.0)).around(const SizedBox(height: 10.0)),
             ),
           ),
         ),

@@ -41,7 +41,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.chatGPTAPIResponse = await ChatGPTCall.call(
-        userPrompt: widget!.question,
+        userPrompt: widget.question,
       );
 
       if ((_model.chatGPTAPIResponse?.succeeded ?? true)) {
@@ -119,7 +119,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
     return Material(
       color: Colors.transparent,
       elevation: 5.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(0.0),
           bottomRight: Radius.circular(0.0),
@@ -135,7 +135,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
         ),
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).primaryBackground,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(0.0),
             bottomRight: Radius.circular(0.0),
             topLeft: Radius.circular(16.0),
@@ -147,7 +147,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -176,10 +176,10 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
                             ),
                       ),
                       Align(
-                        alignment: AlignmentDirectional(1.0, -1.0),
+                        alignment: const AlignmentDirectional(1.0, -1.0),
                         child: GradientText(
                           valueOrDefault<String>(
-                            widget!.question,
+                            widget.question,
                             'No Question Submitted',
                           ),
                           style:
@@ -227,7 +227,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       child: MarkdownBody(
                         data: _model.aPIResponse,
                         selectable: true,
@@ -235,8 +235,8 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
                       ),
                     ),
                   ]
-                      .addToStart(SizedBox(height: 10.0))
-                      .addToEnd(SizedBox(height: 20.0)),
+                      .addToStart(const SizedBox(height: 10.0))
+                      .addToEnd(const SizedBox(height: 20.0)),
                 ),
               ),
             ),

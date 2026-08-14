@@ -21,7 +21,5 @@ Color hexToColor(String hexValue) {
 }
 
 String? sanitiseBible(String bibleHTML) {
-  return '<div class="scripture-styles"> ' +
-      bibleHTML.replaceAll(r'\', '') +
-      ' </div';
+  return '<div class="scripture-styles"> ${bibleHTML.replaceAll(r'\', '')} </div';
 }

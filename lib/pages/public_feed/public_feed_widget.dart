@@ -44,7 +44,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
         context.goNamed(
           OnboardingWidget.routeName,
           extra: <String, dynamic>{
-            kTransitionInfoKey: TransitionInfo(
+            kTransitionInfoKey: const TransitionInfo(
               hasTransition: true,
               transitionType: PageTransitionType.fade,
               duration: Duration(milliseconds: 0),
@@ -147,7 +147,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                   fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
@@ -170,9 +170,9 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Visibility(
                               visible: responsiveVisibility(
                                 context: context,
@@ -193,7 +193,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                         .secondaryBackground,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  child: Column(
+                                  child: const Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [],
                                   ),
@@ -206,9 +206,9 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                     Expanded(
                       flex: 2,
                       child: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Container(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxWidth: 600.0,
                           ),
                           decoration: BoxDecoration(
@@ -229,7 +229,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 12.0, 12.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -240,13 +240,11 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                             width: 50.0,
                                             height: 50.0,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
-                                              FFAppState().LoggedInUserProfilePic !=
-                                                          null &&
-                                                      FFAppState()
+                                              FFAppState()
                                                               .LoggedInUserProfilePic !=
                                                           ''
                                                   ? FFAppState()
@@ -257,7 +255,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(8.0, 0.0, 0.0, 0.0),
                                               child: TextFormField(
                                                 controller:
@@ -267,7 +265,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                 onChanged: (_) =>
                                                     EasyDebounce.debounce(
                                                   '_model.textController',
-                                                  Duration(milliseconds: 2000),
+                                                  const Duration(milliseconds: 2000),
                                                   () => safeSetState(() {}),
                                                 ),
                                                 autofocus: false,
@@ -293,7 +291,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                                   .fontStyle,
                                                         ),
                                                         color:
-                                                            Color(0xFF57636C),
+                                                            const Color(0xFF57636C),
                                                         fontSize: 12.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -305,13 +303,13 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                                 .fontStyle,
                                                       ),
                                                   enabledBorder:
-                                                      UnderlineInputBorder(
+                                                      const UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(4.0),
                                                       topRight:
@@ -319,13 +317,13 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                     ),
                                                   ),
                                                   focusedBorder:
-                                                      UnderlineInputBorder(
+                                                      const UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(4.0),
                                                       topRight:
@@ -333,13 +331,13 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                     ),
                                                   ),
                                                   errorBorder:
-                                                      UnderlineInputBorder(
+                                                      const UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(4.0),
                                                       topRight:
@@ -347,13 +345,13 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                     ),
                                                   ),
                                                   focusedErrorBorder:
-                                                      UnderlineInputBorder(
+                                                      const UnderlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color: Color(0x00000000),
                                                       width: 1.0,
                                                     ),
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
                                                           Radius.circular(4.0),
                                                       topRight:
@@ -361,7 +359,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                     ),
                                                   ),
                                                   contentPadding:
-                                                      EdgeInsetsDirectional
+                                                      const EdgeInsetsDirectional
                                                           .fromSTEB(16.0, 4.0,
                                                               8.0, 12.0),
                                                 ),
@@ -442,7 +440,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                           .alternate,
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 4.0, 12.0, 12.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -453,7 +451,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 4.0, 0.0),
                                                 child: FlutterFlowIconButton(
@@ -596,9 +594,9 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                             options: FFButtonOptions(
                                               width: 90.0,
                                               height: 40.0,
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                              iconPadding: EdgeInsetsDirectional
+                                              iconPadding: const EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 0.0),
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -629,7 +627,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                                 .fontStyle,
                                                       ),
                                               elevation: 2.0,
-                                              borderSide: BorderSide(
+                                              borderSide: const BorderSide(
                                                 color: Colors.transparent,
                                                 width: 1.0,
                                               ),
@@ -684,12 +682,12 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
 
                                     return ListView.separated(
                                       padding:
-                                          EdgeInsets.symmetric(vertical: 5.0),
+                                          const EdgeInsets.symmetric(vertical: 5.0),
                                       scrollDirection: Axis.vertical,
                                       itemCount:
                                           listViewPostsviewRowList.length,
                                       separatorBuilder: (_, __) =>
-                                          SizedBox(height: 5.0),
+                                          const SizedBox(height: 5.0),
                                       itemBuilder: (context, listViewIndex) {
                                         final listViewPostsviewRow =
                                             listViewPostsviewRowList[
@@ -721,7 +719,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                       .secondaryBackground,
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
+                                                  padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           8.0, 12.0, 8.0, 8.0),
                                                   child: Row(
@@ -734,7 +732,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                         clipBehavior:
                                                             Clip.antiAlias,
                                                         decoration:
-                                                            BoxDecoration(
+                                                            const BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
                                                         ),
@@ -753,7 +751,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     15.0,
                                                                     0.0,
@@ -868,7 +866,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 0.0, 8.0, 4.0),
                                                 child: Row(
@@ -936,7 +934,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                     ),
                                                   );
                                                 }),
-                                              Divider(
+                                              const Divider(
                                                 height: 8.0,
                                                 thickness: 1.0,
                                                 indent: 4.0,
@@ -944,7 +942,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                 color: Color(0xFFF1F4F8),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.all(6.0),
+                                                padding: const EdgeInsets.all(6.0),
                                                 child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
@@ -961,7 +959,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                         },
                                                         text:
                                                             '${listViewPostsviewRow.reactioncount?.toString()} Reactions',
-                                                        icon: Icon(
+                                                        icon: const Icon(
                                                           Icons
                                                               .tag_faces_rounded,
                                                           size: 15.0,
@@ -970,14 +968,14 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                             FFButtonOptions(
                                                           height: 32.0,
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       16.0,
                                                                       0.0,
                                                                       16.0,
                                                                       0.0),
                                                           iconPadding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
@@ -1030,7 +1028,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                         },
                                                         text:
                                                             '${listViewPostsviewRow.commentscount?.toString()} Comments',
-                                                        icon: Icon(
+                                                        icon: const Icon(
                                                           Icons.mode_comment,
                                                           size: 15.0,
                                                         ),
@@ -1038,14 +1036,14 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                             FFButtonOptions(
                                                           height: 32.0,
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       16.0,
                                                                       0.0,
                                                                       16.0,
                                                                       0.0),
                                                           iconPadding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
@@ -1090,7 +1088,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                                       ),
                                                     ),
                                                   ].divide(
-                                                      SizedBox(width: 10.0)),
+                                                      const SizedBox(width: 10.0)),
                                                 ),
                                               ),
                                             ],
@@ -1101,7 +1099,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                   },
                                 ),
                               ),
-                            ].divide(SizedBox(height: 1.0)),
+                            ].divide(const SizedBox(height: 1.0)),
                           ),
                         ),
                       ),
@@ -1115,9 +1113,9 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Visibility(
                               visible: responsiveVisibility(
                                 context: context,
@@ -1138,7 +1136,7 @@ class _PublicFeedWidgetState extends State<PublicFeedWidget> with RouteAware {
                                         .secondaryBackground,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  child: Column(
+                                  child: const Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [],
                                   ),

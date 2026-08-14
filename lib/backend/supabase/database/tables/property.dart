@@ -9,7 +9,7 @@ class PropertyTable extends SupabaseTable<PropertyRow> {
 }
 
 class PropertyRow extends SupabaseDataRow {
-  PropertyRow(Map<String, dynamic> data) : super(data);
+  PropertyRow(super.data);
 
   @override
   SupabaseTable get table => PropertyTable();

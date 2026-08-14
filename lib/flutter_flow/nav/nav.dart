@@ -147,40 +147,40 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : const LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : const LoginWidget(),
         ),
         FFRoute(
           name: PublicFeedWidget.routeName,
           path: PublicFeedWidget.routePath,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'PublicFeed')
-              : PublicFeedWidget(),
+              : const PublicFeedWidget(),
         ),
         FFRoute(
           name: NeedsWidget.routeName,
           path: NeedsWidget.routePath,
-          builder: (context, params) => NeedsWidget(),
+          builder: (context, params) => const NeedsWidget(),
         ),
         FFRoute(
           name: AccomodationWidget.routeName,
           path: AccomodationWidget.routePath,
-          builder: (context, params) => AccomodationWidget(),
+          builder: (context, params) => const AccomodationWidget(),
         ),
         FFRoute(
           name: CommunityWidget.routeName,
           path: CommunityWidget.routePath,
-          builder: (context, params) => CommunityWidget(),
+          builder: (context, params) => const CommunityWidget(),
         ),
         FFRoute(
           name: FreeStuffWidget.routeName,
           path: FreeStuffWidget.routePath,
-          builder: (context, params) => FreeStuffWidget(),
+          builder: (context, params) => const FreeStuffWidget(),
         ),
         FFRoute(
           name: NeedDetailsWidget.routeName,
@@ -207,22 +207,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CreateWidget.routeName,
           path: CreateWidget.routePath,
-          builder: (context, params) => CreateWidget(),
+          builder: (context, params) => const CreateWidget(),
         ),
         FFRoute(
           name: LoginWidget.routeName,
           path: LoginWidget.routePath,
-          builder: (context, params) => LoginWidget(),
+          builder: (context, params) => const LoginWidget(),
         ),
         FFRoute(
           name: ForgotPasswordWidget.routeName,
           path: ForgotPasswordWidget.routePath,
-          builder: (context, params) => ForgotPasswordWidget(),
+          builder: (context, params) => const ForgotPasswordWidget(),
         ),
         FFRoute(
           name: OnboardWidget.routeName,
           path: OnboardWidget.routePath,
-          builder: (context, params) => OnboardWidget(),
+          builder: (context, params) => const OnboardWidget(),
         ),
         FFRoute(
           name: CommunityDetailWidget.routeName,
@@ -269,17 +269,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: OnboardingWidget.routeName,
           path: OnboardingWidget.routePath,
-          builder: (context, params) => OnboardingWidget(),
+          builder: (context, params) => const OnboardingWidget(),
         ),
         FFRoute(
           name: LoginDirectorWidget.routeName,
           path: LoginDirectorWidget.routePath,
-          builder: (context, params) => LoginDirectorWidget(),
+          builder: (context, params) => const LoginDirectorWidget(),
         ),
         FFRoute(
           name: MyCommunitiesWidget.routeName,
           path: MyCommunitiesWidget.routePath,
-          builder: (context, params) => MyCommunitiesWidget(),
+          builder: (context, params) => const MyCommunitiesWidget(),
         ),
         FFRoute(
           name: FreebieSettingsWidget.routeName,
@@ -298,7 +298,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: MyFreebiesWidget.routeName,
           path: MyFreebiesWidget.routePath,
-          builder: (context, params) => MyFreebiesWidget(),
+          builder: (context, params) => const MyFreebiesWidget(),
         ),
         FFRoute(
           name: FreebieDetailsWidget.routeName,
@@ -319,12 +319,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: MyMessagesWidget.routePath,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'MyMessages')
-              : MyMessagesWidget(),
+              : const MyMessagesWidget(),
         ),
         FFRoute(
           name: NewChatWidget.routeName,
           path: NewChatWidget.routePath,
-          builder: (context, params) => NewChatWidget(),
+          builder: (context, params) => const NewChatWidget(),
         ),
         FFRoute(
           name: AccomodationDetailsWidget.routeName,
@@ -341,7 +341,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: HomeWidget.routePath,
           requireAuth: true,
           builder: (context, params) =>
-              params.isEmpty ? NavBarPage(initialPage: 'Home') : HomeWidget(),
+              params.isEmpty ? NavBarPage(initialPage: 'Home') : const HomeWidget(),
         ),
         FFRoute(
           name: ChatWidget.routeName,
@@ -360,7 +360,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: BiblesWidget.routeName,
           path: BiblesWidget.routePath,
-          builder: (context, params) => BiblesWidget(),
+          builder: (context, params) => const BiblesWidget(),
         ),
         FFRoute(
           name: BooksWidget.routeName,
@@ -421,7 +421,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: SearchWidget.routePath,
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'Search')
-              : SearchWidget(),
+              : const SearchWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -658,7 +658,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

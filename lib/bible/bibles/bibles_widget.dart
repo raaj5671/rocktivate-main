@@ -54,8 +54,8 @@ class _BiblesWidgetState extends State<BiblesWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -154,14 +154,14 @@ class _BiblesWidgetState extends State<BiblesWidget>
                   fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future: BibleAPIGroup.biblesCall.call(),
               builder: (context, snapshot) {
@@ -229,10 +229,10 @@ class _BiblesWidgetState extends State<BiblesWidget>
                           debugLogWidgetClass(_model);
 
                           return ListView.separated(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                             scrollDirection: Axis.vertical,
                             itemCount: bible.length,
-                            separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                            separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                             itemBuilder: (context, bibleIndex) {
                               final bibleItem = bible[bibleIndex];
                               return InkWell(
@@ -277,14 +277,14 @@ class _BiblesWidgetState extends State<BiblesWidget>
                                           FlutterFlowTheme.of(context).primary,
                                           FlutterFlowTheme.of(context).secondary
                                         ],
-                                        stops: [0.0, 1.0],
-                                        begin: AlignmentDirectional(1.0, 0.87),
-                                        end: AlignmentDirectional(-1.0, -0.87),
+                                        stops: const [0.0, 1.0],
+                                        begin: const AlignmentDirectional(1.0, 0.87),
+                                        end: const AlignmentDirectional(-1.0, -0.87),
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.all(12.0),
+                                      padding: const EdgeInsets.all(12.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -406,8 +406,8 @@ class _BiblesWidgetState extends State<BiblesWidget>
                       ),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .around(SizedBox(height: 10.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .around(const SizedBox(height: 10.0)),
                 );
               },
             ),

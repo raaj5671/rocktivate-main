@@ -11,7 +11,7 @@ class CommunityMembersWithFullNameTable
 }
 
 class CommunityMembersWithFullNameRow extends SupabaseDataRow {
-  CommunityMembersWithFullNameRow(Map<String, dynamic> data) : super(data);
+  CommunityMembersWithFullNameRow(super.data);
 
   @override
   SupabaseTable get table => CommunityMembersWithFullNameTable();

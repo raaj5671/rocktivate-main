@@ -128,30 +128,30 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).oxfordBlue,
           automaticallyImplyLeading: false,
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
+            alignment: const AlignmentDirectional(0.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
                   child: Container(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxWidth: 600.0,
                     ),
-                    decoration: BoxDecoration(),
-                    child: Container(
+                    decoration: const BoxDecoration(),
+                    child: SizedBox(
                       width: double.infinity,
                       height: 500.0,
                       child: Stack(
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 40.0),
                             child: PageView(
                               controller: _model.pageViewController ??=
@@ -202,7 +202,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 16.0, 0.0, 16.0),
                                           child: Text(
                                             'Welcome to Rocktivate! ',
@@ -240,7 +240,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   20.0, 0.0, 20.0, 16.0),
                                           child: Text(
                                             'Lets get you setup! We want to make things as smooth as possible so that you can hit the ground running! Lets start with some details',
@@ -282,13 +282,13 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                     Expanded(
                                       child: Align(
                                         alignment:
-                                            AlignmentDirectional(0.0, -1.0),
+                                            const AlignmentDirectional(0.0, -1.0),
                                         child: Padding(
-                                          padding: EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
@@ -363,7 +363,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -374,7 +374,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -455,7 +455,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                       .asValidator(context),
                                                 ),
                                               ),
-                                              Container(
+                                              SizedBox(
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
@@ -530,7 +530,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -541,7 +541,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                         color:
                                                             Color(0x00000000),
                                                         width: 1.0,
@@ -627,7 +627,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         .dropDownValueController ??=
                                                     FormFieldController<String>(
                                                         null),
-                                                options: ['Male', 'Female'],
+                                                options: const ['Male', 'Female'],
                                                 onChanged: (val) =>
                                                     safeSetState(() => _model
                                                         .dropDownValue = val),
@@ -684,7 +684,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                 borderColor: Colors.transparent,
                                                 borderWidth: 0.0,
                                                 borderRadius: 8.0,
-                                                margin: EdgeInsetsDirectional
+                                                margin: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         12.0, 0.0, 12.0, 0.0),
                                                 hidesUnderline: true,
@@ -707,7 +707,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                           8.0),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
+                                                  padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           10.0, 0.0, 10.0, 0.0),
                                                   child: Row(
@@ -758,7 +758,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                               context: context,
                                                               builder:
                                                                   (context) {
-                                                                final _datePickedCupertinoTheme =
+                                                                final datePickedCupertinoTheme =
                                                                     CupertinoTheme.of(
                                                                         context);
                                                                 return ScrollConfiguration(
@@ -791,9 +791,9 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                                         .secondaryBackground,
                                                                     child:
                                                                         CupertinoTheme(
-                                                                      data: _datePickedCupertinoTheme
+                                                                      data: datePickedCupertinoTheme
                                                                           .copyWith(
-                                                                        textTheme: _datePickedCupertinoTheme
+                                                                        textTheme: datePickedCupertinoTheme
                                                                             .textTheme
                                                                             .copyWith(
                                                                           dateTimePickerTextStyle: FlutterFlowTheme.of(context)
@@ -847,14 +847,14 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                             FFButtonOptions(
                                                           height: 40.0,
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       16.0,
                                                                       0.0,
                                                                       16.0,
                                                                       0.0),
                                                           iconPadding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
@@ -904,32 +904,26 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                   ),
                                                 ),
                                               ),
-                                            ].divide(SizedBox(height: 10.0)),
+                                            ].divide(const SizedBox(height: 10.0)),
                                           ),
                                         ),
                                       ),
                                     ),
                                     if ((_model.textFieldFirstNameTextController
                                                     .text !=
-                                                null &&
-                                            _model.textFieldFirstNameTextController
-                                                    .text !=
                                                 '') &&
                                         (_model.textFieldLastNameTextController
-                                                    .text !=
-                                                null &&
-                                            _model.textFieldLastNameTextController
                                                     .text !=
                                                 ''))
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(0.0, 1.0),
+                                            const AlignmentDirectional(0.0, 1.0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
                                             await _model.pageViewController
                                                 ?.nextPage(
                                               duration:
-                                                  Duration(milliseconds: 300),
+                                                  const Duration(milliseconds: 300),
                                               curve: Curves.ease,
                                             );
                                           },
@@ -940,10 +934,10 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                 0.75,
                                             height: 40.0,
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             iconPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),
                                             color: FlutterFlowTheme.of(context)
                                                 .oxfordBlue,
@@ -1019,7 +1013,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                           ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           20.0, 0.0, 20.0, 16.0),
                                       child: Text(
                                         'We\'d love to help you connect and flourish on Rocktivate! Would you like to share the gifts God has given you?',
@@ -1059,9 +1053,9 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(8.0),
                                             child: FlutterFlowChoiceChips(
-                                              options: [
+                                              options: const [
                                                 ChipData('Prophesy'),
                                                 ChipData('Serving (Ministry)'),
                                                 ChipData('Teaching'),
@@ -1133,7 +1127,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         .info,
                                                 iconSize: 16.0,
                                                 labelPadding:
-                                                    EdgeInsets.all(6.0),
+                                                    const EdgeInsets.all(6.0),
                                                 elevation: 0.0,
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
@@ -1179,7 +1173,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         .secondaryText,
                                                 iconSize: 16.0,
                                                 labelPadding:
-                                                    EdgeInsets.all(6.0),
+                                                    const EdgeInsets.all(6.0),
                                                 elevation: 0.0,
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
@@ -1205,7 +1199,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     .width *
                                                 1.0,
                                             height: 100.0,
-                                            decoration: BoxDecoration(),
+                                            decoration: const BoxDecoration(),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
@@ -1221,11 +1215,11 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         0.75,
                                                     height: 40.0,
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
                                                                 16.0, 0.0),
                                                     iconPadding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     color: FlutterFlowTheme.of(
@@ -1274,7 +1268,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     await _model
                                                         .pageViewController
                                                         ?.nextPage(
-                                                      duration: Duration(
+                                                      duration: const Duration(
                                                           milliseconds: 300),
                                                       curve: Curves.ease,
                                                     );
@@ -1287,11 +1281,11 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         0.75,
                                                     height: 40.0,
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
                                                                 16.0, 0.0),
                                                     iconPadding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     color: FlutterFlowTheme.of(
@@ -1335,10 +1329,10 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                             8.0),
                                                   ),
                                                 ),
-                                              ].divide(SizedBox(height: 10.0)),
+                                              ].divide(const SizedBox(height: 10.0)),
                                             ),
                                           ),
-                                        ].divide(SizedBox(height: 10.0)),
+                                        ].divide(const SizedBox(height: 10.0)),
                                       ),
                                     ),
                                   ],
@@ -1375,7 +1369,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                           ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           20.0, 10.0, 20.0, 16.0),
                                       child: Text(
                                         'Setup a Profile Picture to help your friends find you!',
@@ -1411,7 +1405,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                     Container(
                                       width: 100.0,
                                       height: 44.54,
-                                      decoration: BoxDecoration(),
+                                      decoration: const BoxDecoration(),
                                     ),
                                     Expanded(
                                       child: Column(
@@ -1430,7 +1424,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                   BorderRadius.circular(102.5),
                                             ),
                                             child: Stack(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   0.0, 0.0),
                                               children: [
                                                 Icon(
@@ -1448,7 +1442,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     .width *
                                                 1.0,
                                             height: 100.0,
-                                            decoration: BoxDecoration(),
+                                            decoration: const BoxDecoration(),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -1459,7 +1453,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     await _model
                                                         .pageViewController
                                                         ?.nextPage(
-                                                      duration: Duration(
+                                                      duration: const Duration(
                                                           milliseconds: 300),
                                                       curve: Curves.ease,
                                                     );
@@ -1472,11 +1466,11 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                         0.75,
                                                     height: 40.0,
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
                                                                 16.0, 0.0),
                                                     iconPadding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     color: FlutterFlowTheme.of(
@@ -1520,10 +1514,10 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                             8.0),
                                                   ),
                                                 ),
-                                              ].divide(SizedBox(height: 10.0)),
+                                              ].divide(const SizedBox(height: 10.0)),
                                             ),
                                           ),
-                                        ].divide(SizedBox(height: 10.0)),
+                                        ].divide(const SizedBox(height: 10.0)),
                                       ),
                                     ),
                                   ],
@@ -1560,7 +1554,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                           ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           20.0, 0.0, 20.0, 16.0),
                                       child: Text(
                                         'Rocktivate aims to get you connected with relevant events, speakers and people in your community, Would you mind sharing your country and postcode?',
@@ -1596,12 +1590,12 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                     Container(
                                       width: 100.0,
                                       height: 44.5,
-                                      decoration: BoxDecoration(),
+                                      decoration: const BoxDecoration(),
                                     ),
                                     Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           width:
                                               MediaQuery.sizeOf(context).width *
                                                   0.75,
@@ -1672,7 +1666,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                                 .fontStyle,
                                                       ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0x00000000),
                                                   width: 1.0,
                                                 ),
@@ -1680,7 +1674,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     BorderRadius.circular(8.0),
                                               ),
                                               focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0x00000000),
                                                   width: 1.0,
                                                 ),
@@ -1751,7 +1745,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                 .asValidator(context),
                                           ),
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width:
                                               MediaQuery.sizeOf(context).width *
                                                   0.75,
@@ -1822,7 +1816,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                                 .fontStyle,
                                                       ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0x00000000),
                                                   width: 1.0,
                                                 ),
@@ -1830,7 +1824,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                     BorderRadius.circular(8.0),
                                               ),
                                               focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0x00000000),
                                                   width: 1.0,
                                                 ),
@@ -1903,14 +1897,8 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                         ),
                                         if ((_model.textFieldCountryTextController
                                                         .text !=
-                                                    null &&
-                                                _model.textFieldCountryTextController
-                                                        .text !=
                                                     '') &&
                                             (_model.textFieldPostCodeTextController
-                                                        .text !=
-                                                    null &&
-                                                _model.textFieldPostCodeTextController
                                                         .text !=
                                                     ''))
                                           FFButtonWidget(
@@ -1918,7 +1906,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                               await _model.pageViewController
                                                   ?.nextPage(
                                                 duration:
-                                                    Duration(milliseconds: 300),
+                                                    const Duration(milliseconds: 300),
                                                 curve: Curves.ease,
                                               );
                                             },
@@ -1928,10 +1916,10 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                       .width *
                                                   0.75,
                                               height: 40.0,
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 16.0, 0.0),
-                                              iconPadding: EdgeInsetsDirectional
+                                              iconPadding: const EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 0.0),
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -1973,7 +1961,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                                   BorderRadius.circular(8.0),
                                             ),
                                           ),
-                                      ].divide(SizedBox(height: 10.0)),
+                                      ].divide(const SizedBox(height: 10.0)),
                                     ),
                                   ],
                                 ),
@@ -1981,9 +1969,9 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                             ),
                           ),
                           Align(
-                            alignment: AlignmentDirectional(0.0, 1.0),
+                            alignment: const AlignmentDirectional(0.0, 1.0),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 16.0),
                               child: smooth_page_indicator.SmoothPageIndicator(
                                 controller: _model.pageViewController ??=
@@ -1997,7 +1985,7 @@ class _OnboardWidgetState extends State<OnboardWidget> with RouteAware {
                                   await _model.pageViewController!
                                       .animateToPage(
                                     i,
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.ease,
                                   );
                                   safeSetState(() {});

@@ -52,7 +52,7 @@ abstract class FlutterFlowModel<W extends Widget> {
   // parameters of the widget, for example.
   W? _widget;
   W? get widget => _widget;
-  void set widget(W? newWidget) {
+  set widget(W? newWidget) {
     _widget = newWidget;
   }
 
@@ -172,7 +172,7 @@ class FlutterFlowDynamicModels<T extends FlutterFlowModel> {
   DynamicWidgetClassDebugData toDynamicWidgetClassDebugData() =>
       DynamicWidgetClassDebugData(
         componentStates: _childrenModels.map((key, value) =>
-            MapEntry('Key(${key})', value.toWidgetClassDebugData())),
+            MapEntry('Key($key)', value.toWidgetClassDebugData())),
       );
 }
 

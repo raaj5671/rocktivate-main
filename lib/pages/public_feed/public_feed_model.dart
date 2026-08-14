@@ -67,7 +67,7 @@ class PublicFeedModel extends FlutterFlowModel<PublicFeedWidget> {
         backendQueries: debugBackendQueries,
         componentStates: {
           'postImagesModel1 (PostImages)':
-              postImagesModel1?.toWidgetClassDebugData(),
+              postImagesModel1.toWidgetClassDebugData(),
           ...widgetBuilderComponents.map(
             (key, value) => MapEntry(
               key,

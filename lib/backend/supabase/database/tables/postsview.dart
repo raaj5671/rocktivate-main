@@ -9,7 +9,7 @@ class PostsviewTable extends SupabaseTable<PostsviewRow> {
 }
 
 class PostsviewRow extends SupabaseDataRow {
-  PostsviewRow(Map<String, dynamic> data) : super(data);
+  PostsviewRow(super.data);
 
   @override
   SupabaseTable get table => PostsviewTable();

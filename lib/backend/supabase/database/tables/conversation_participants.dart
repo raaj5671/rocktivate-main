@@ -11,7 +11,7 @@ class ConversationParticipantsTable
 }
 
 class ConversationParticipantsRow extends SupabaseDataRow {
-  ConversationParticipantsRow(Map<String, dynamic> data) : super(data);
+  ConversationParticipantsRow(super.data);
 
   @override
   SupabaseTable get table => ConversationParticipantsTable();

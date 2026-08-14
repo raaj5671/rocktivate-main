@@ -10,7 +10,7 @@ class CommunityRequestsTable extends SupabaseTable<CommunityRequestsRow> {
 }
 
 class CommunityRequestsRow extends SupabaseDataRow {
-  CommunityRequestsRow(Map<String, dynamic> data) : super(data);
+  CommunityRequestsRow(super.data);
 
   @override
   SupabaseTable get table => CommunityRequestsTable();

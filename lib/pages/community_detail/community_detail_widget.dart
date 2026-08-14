@@ -103,7 +103,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
       future: CommunitiesTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
           'UUID',
-          widget!.groupLink,
+          widget.groupLink,
         ),
       ),
       builder: (context, snapshot) {
@@ -158,7 +158,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                     Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: 200.0,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Stack(
                         children: [
                           ClipRRect(
@@ -180,13 +180,13 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                             ),
                           ),
                           Align(
-                            alignment: AlignmentDirectional(0.0, 1.0),
+                            alignment: const AlignmentDirectional(0.0, 1.0),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 0.0, 0.0),
                               child: Container(
                                 height: 75.0,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color(0x0039D2C0),
                                 ),
                                 child: Row(
@@ -195,12 +195,12 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                   children: [
                                     Align(
                                       alignment:
-                                          AlignmentDirectional(-1.0, 1.0),
+                                          const AlignmentDirectional(-1.0, 1.0),
                                       child: Container(
                                         width: 75.0,
                                         height: 75.0,
                                         clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.network(
@@ -220,7 +220,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                         ),
                                       ),
                                     ),
-                                  ].divide(SizedBox(width: 10.0)),
+                                  ].divide(const SizedBox(width: 10.0)),
                                 ),
                               ),
                             ),
@@ -235,22 +235,22 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                         gradient: LinearGradient(
                           colors: [
                             FlutterFlowTheme.of(context).primary,
-                            Color(0x0039D2C0)
+                            const Color(0x0039D2C0)
                           ],
-                          stops: [0.0, 1.0],
-                          begin: AlignmentDirectional(0.0, -1.0),
-                          end: AlignmentDirectional(0, 1.0),
+                          stops: const [0.0, 1.0],
+                          begin: const AlignmentDirectional(0.0, -1.0),
+                          end: const AlignmentDirectional(0, 1.0),
                         ),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             10.0, 0.0, 10.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 30.0, 0.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -272,7 +272,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                     flex: 1,
                                     child: Text(
                                       valueOrDefault<String>(
-                                        widget!.name,
+                                        widget.name,
                                         'Group Name',
                                       ),
                                       textAlign: TextAlign.center,
@@ -303,7 +303,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                           Shadow(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
-                                            offset: Offset(2.0, 2.0),
+                                            offset: const Offset(2.0, 2.0),
                                             blurRadius: 15.0,
                                           )
                                         ],
@@ -340,8 +340,8 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                                     MediaQuery.viewInsetsOf(
                                                         context),
                                                 child: NewGroupPostWidget(
-                                                  id: widget!.groupLink!,
-                                                  name: widget!.name!,
+                                                  id: widget.groupLink!,
+                                                  name: widget.name!,
                                                 ),
                                               ),
                                             ),
@@ -354,8 +354,8 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                               ),
                             ),
                           ]
-                              .addToStart(SizedBox(height: 20.0))
-                              .addToEnd(SizedBox(height: 20.0)),
+                              .addToStart(const SizedBox(height: 20.0))
+                              .addToEnd(const SizedBox(height: 20.0)),
                         ),
                       ),
                     ),
@@ -370,7 +370,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                         )
                         .eqOrNull(
                           'GroupLink',
-                          widget!.groupLink,
+                          widget.groupLink,
                         ),
                   ),
                   builder: (context, snapshot) {
@@ -405,11 +405,11 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                     debugLogWidgetClass(_model);
 
                     return ListView.separated(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: listViewPostsviewRowList.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                      separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                       itemBuilder: (context, listViewIndex) {
                         final listViewPostsviewRow =
                             listViewPostsviewRowList[listViewIndex];
@@ -421,12 +421,12 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                             borderRadius: BorderRadius.circular(0.0),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 12.0, 8.0, 8.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -435,7 +435,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                         width: 40.0,
                                         height: 40.0,
                                         clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
                                         child: Image.network(
@@ -444,7 +444,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             15.0, 0.0, 0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -504,7 +504,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                                               .labelSmall
                                                               .fontStyle,
                                                     ),
-                                                    color: Color(0xFF57636C),
+                                                    color: const Color(0xFF57636C),
                                                     fontSize: 12.0,
                                                     letterSpacing: 0.0,
                                                     fontWeight: FontWeight.w500,
@@ -522,7 +522,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 0.0, 8.0, 4.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -541,7 +541,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                                           .labelMedium
                                                           .fontStyle,
                                                 ),
-                                                color: Color(0xFF57636C),
+                                                color: const Color(0xFF57636C),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -555,7 +555,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                     ],
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   height: 8.0,
                                   thickness: 1.0,
                                   indent: 4.0,
@@ -563,7 +563,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                   color: Color(0xFFF1F4F8),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(6.0),
+                                  padding: const EdgeInsets.all(6.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
@@ -577,17 +577,17 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                           },
                                           text:
                                               '${listViewPostsviewRow.reactioncount?.toString()} Reactions',
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.tag_faces_rounded,
                                             size: 15.0,
                                           ),
                                           options: FFButtonOptions(
                                             height: 32.0,
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             iconPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
@@ -633,17 +633,17 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                           },
                                           text:
                                               '${listViewPostsviewRow.commentscount?.toString()} Comments',
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.mode_comment,
                                             size: 15.0,
                                           ),
                                           options: FFButtonOptions(
                                             height: 32.0,
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             iconPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
@@ -681,7 +681,7 @@ class _CommunityDetailWidgetState extends State<CommunityDetailWidget>
                                           ),
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 10.0)),
+                                    ].divide(const SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ],

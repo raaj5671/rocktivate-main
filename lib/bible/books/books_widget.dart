@@ -21,7 +21,7 @@ class BooksWidget extends StatefulWidget {
     super.key,
     String? title,
     required this.bibleid,
-  }) : this.title = title ?? 'Books';
+  }) : title = title ?? 'Books';
 
   final String title;
   final String? bibleid;
@@ -61,8 +61,8 @@ class _BooksWidgetState extends State<BooksWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: Offset(0.0, 80.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 80.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -146,7 +146,7 @@ class _BooksWidgetState extends State<BooksWidget>
               IconThemeData(color: FlutterFlowTheme.of(context).secondaryText),
           automaticallyImplyLeading: true,
           title: Text(
-            widget!.title,
+            widget.title,
             style: FlutterFlowTheme.of(context).titleMedium.override(
                   font: GoogleFonts.interTight(
                     fontWeight:
@@ -161,17 +161,17 @@ class _BooksWidgetState extends State<BooksWidget>
                   fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future: BibleAPIGroup.booksCall.call(
-                bibleID: widget!.bibleid,
+                bibleID: widget.bibleid,
               ),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
@@ -238,10 +238,10 @@ class _BooksWidgetState extends State<BooksWidget>
                           debugLogWidgetClass(_model);
 
                           return ListView.separated(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                             scrollDirection: Axis.vertical,
                             itemCount: bible.length,
-                            separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                            separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                             itemBuilder: (context, bibleIndex) {
                               final bibleItem = bible[bibleIndex];
                               return InkWell(
@@ -256,11 +256,11 @@ class _BooksWidgetState extends State<BooksWidget>
                                     ChaptersWidget.routeName,
                                     queryParameters: {
                                       'title': serializeParam(
-                                        widget!.title,
+                                        widget.title,
                                         ParamType.String,
                                       ),
                                       'bibleid': serializeParam(
-                                        widget!.bibleid,
+                                        widget.bibleid,
                                         ParamType.String,
                                       ),
                                       'bookid': serializeParam(
@@ -294,14 +294,14 @@ class _BooksWidgetState extends State<BooksWidget>
                                           FlutterFlowTheme.of(context).primary,
                                           FlutterFlowTheme.of(context).secondary
                                         ],
-                                        stops: [0.0, 1.0],
-                                        begin: AlignmentDirectional(1.0, 0.87),
-                                        end: AlignmentDirectional(-1.0, -0.87),
+                                        stops: const [0.0, 1.0],
+                                        begin: const AlignmentDirectional(1.0, 0.87),
+                                        end: const AlignmentDirectional(-1.0, -0.87),
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.all(12.0),
+                                      padding: const EdgeInsets.all(12.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -383,8 +383,8 @@ class _BooksWidgetState extends State<BooksWidget>
                       ),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .around(SizedBox(height: 10.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .around(const SizedBox(height: 10.0)),
                 );
               },
             ),

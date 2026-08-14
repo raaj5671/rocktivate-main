@@ -1,4 +1,5 @@
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
@@ -28,6 +30,8 @@ void main() async {
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
+
+  await LiquidGlassWidgets.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -104,13 +108,18 @@ Stack trace: ${filteredStackTrace.join("\n")}''';
     EasyDebounce.cancel('508f3c74205c87928b71f49040062e732f9c20b0');
   });
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
-    child: MyApp(),
+  runApp(LiquidGlassWidgets.wrap(
+    brightnessResolver: Theme.maybeBrightnessOf,
+    child: ChangeNotifierProvider(
+      create: (context) => appState,
+      child: MyApp(),
+    ),
   ));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
@@ -152,7 +161,7 @@ class _MyAppState extends State<MyApp> {
       });
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      Duration(milliseconds: 1000),
+      const Duration(milliseconds: 1000),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
 
@@ -177,7 +186,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'RocktivateSupabase',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -198,12 +207,12 @@ class _MyAppState extends State<MyApp> {
 }
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({
-    Key? key,
+  const NavBarPage({
+    super.key,
     this.initialPage,
     this.page,
     this.disableResizeToAvoidBottomInset = false,
-  }) : super(key: key);
+  });
 
   final String? initialPage;
   final Widget? page;
@@ -223,18 +232,99 @@ class _NavBarPageState extends State<NavBarPage> {
     super.initState();
     _currentPageName = widget.initialPage ?? _currentPageName;
     _currentPage = widget.page;
+    _hydrateLoggedInUserIfNeeded();
+  }
+
+  // If the Supabase session was restored without going through the login
+  // screen (e.g. a fresh install/cache clear on a device with a still-valid
+  // session), FFAppState's cached profile fields are never populated there.
+  // Fetch them here so screens that depend on LoggedInUserUUID don't crash.
+  Future<void> _hydrateLoggedInUserIfNeeded() async {
+    if (FFAppState().LoggedInUserUUID.isNotEmpty || currentUserUid.isEmpty) {
+      return;
+    }
+    final loggedInUser = await PeopleTable().queryRows(
+      queryFn: (q) => q.eqOrNull('UserUUID', currentUserUid),
+    );
+    final person = loggedInUser.firstOrNull;
+    if (person == null || !mounted) {
+      return;
+    }
+    FFAppState().LoggedInUserUUID = person.uuid;
+    FFAppState().HasCompletedOnboarding = valueOrDefault<bool>(
+      person.hasCompletedOnboarding,
+      true,
+    );
+    FFAppState().LoggedInUserFullName = valueOrDefault<String>(
+      '${person.firstName} ${person.lastName}',
+      'Unknown User',
+    );
+    FFAppState().LoggedInUserDP = valueOrDefault<String>(
+      person.profileImage,
+      'https://placehold.co/150/png',
+    );
+    FFAppState().LoggedInUserProfilePic = valueOrDefault<String>(
+      person.profileImage,
+      'https://placehold.co/150/png',
+    );
+    safeSetState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'Home': HomeWidget(),
-      'Search': SearchWidget(),
-      'PublicFeed': PublicFeedWidget(),
-      'MyMessages': MyMessagesWidget(),
-      'Profile': ProfileWidget(),
+      'Home': const HomeWidget(),
+      'Search': const SearchWidget(),
+      'PublicFeed': const PublicFeedWidget(),
+      'MyMessages': const MyMessagesWidget(),
+      'Profile': const ProfileWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
+
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return GlassScaffold(
+        resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        body: _currentPage ?? tabs[_currentPageName]!,
+        bottomBar: Visibility(
+          visible: responsiveVisibility(
+            context: context,
+            desktop: false,
+          ),
+          child: GlassTabBar.bottom(
+            selectedIndex: currentIndex,
+            onTabSelected: (i) => safeSetState(() {
+              _currentPage = null;
+              _currentPageName = tabs.keys.toList()[i];
+            }),
+            selectedIconColor: FlutterFlowTheme.of(context).secondary,
+            unselectedIconColor: FlutterFlowTheme.of(context).secondaryText,
+            tabs: const [
+              GlassTab(
+                icon: FaIcon(FontAwesomeIcons.home, size: 24.0),
+                semanticLabel: 'Home',
+              ),
+              GlassTab(
+                icon: FaIcon(FontAwesomeIcons.search, size: 24.0),
+                semanticLabel: 'Search',
+              ),
+              GlassTab(
+                icon: FaIcon(FontAwesomeIcons.stream, size: 24.0),
+                semanticLabel: 'Feed',
+              ),
+              GlassTab(
+                icon: FaIcon(FontAwesomeIcons.comment, size: 24.0),
+                semanticLabel: 'Messages',
+              ),
+              GlassTab(
+                icon: Icon(Icons.person_rounded, size: 28.0),
+                semanticLabel: 'Profile',
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
@@ -256,7 +346,7 @@ class _NavBarPageState extends State<NavBarPage> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: FaIcon(
                 FontAwesomeIcons.home,

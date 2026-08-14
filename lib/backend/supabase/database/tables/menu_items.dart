@@ -9,7 +9,7 @@ class MenuItemsTable extends SupabaseTable<MenuItemsRow> {
 }
 
 class MenuItemsRow extends SupabaseDataRow {
-  MenuItemsRow(Map<String, dynamic> data) : super(data);
+  MenuItemsRow(super.data);
 
   @override
   SupabaseTable get table => MenuItemsTable();

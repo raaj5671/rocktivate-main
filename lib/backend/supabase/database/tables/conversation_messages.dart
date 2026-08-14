@@ -10,7 +10,7 @@ class ConversationMessagesTable extends SupabaseTable<ConversationMessagesRow> {
 }
 
 class ConversationMessagesRow extends SupabaseDataRow {
-  ConversationMessagesRow(Map<String, dynamic> data) : super(data);
+  ConversationMessagesRow(super.data);
 
   @override
   SupabaseTable get table => ConversationMessagesTable();

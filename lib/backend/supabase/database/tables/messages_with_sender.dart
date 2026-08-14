@@ -10,7 +10,7 @@ class MessagesWithSenderTable extends SupabaseTable<MessagesWithSenderRow> {
 }
 
 class MessagesWithSenderRow extends SupabaseDataRow {
-  MessagesWithSenderRow(Map<String, dynamic> data) : super(data);
+  MessagesWithSenderRow(super.data);
 
   @override
   SupabaseTable get table => MessagesWithSenderTable();

@@ -107,7 +107,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
     return Material(
       color: Colors.transparent,
       elevation: 5.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(0.0),
           bottomRight: Radius.circular(0.0),
@@ -120,7 +120,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
         height: 370.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(0.0),
             bottomRight: Radius.circular(0.0),
             topLeft: Radius.circular(16.0),
@@ -138,7 +138,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                     child: Container(
                       width: 50.0,
                       height: 4.0,
@@ -151,7 +151,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 ],
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                 child: Text(
                   'Create a post!',
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -174,9 +174,9 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 0.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 0.0, 0.0),
                 child: Text(
-                  'Posting to: ${widget!.name}',
+                  'Posting to: ${widget.name}',
                   style: FlutterFlowTheme.of(context).labelMedium.override(
                         font: GoogleFonts.inter(
                           fontWeight: FlutterFlowTheme.of(context)
@@ -195,7 +195,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -210,7 +210,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                       child: Text(
                         FFAppState().LoggedInUserFullName,
                         style: FlutterFlowTheme.of(context).titleLarge.override(
@@ -236,7 +236,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: TextFormField(
                   controller: _model.shortBioTextController,
                   focusNode: _model.shortBioFocusNode,
@@ -290,7 +290,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     contentPadding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 32.0, 20.0, 12.0),
+                        const EdgeInsetsDirectional.fromSTEB(20.0, 32.0, 20.0, 12.0),
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.inter(
@@ -320,13 +320,13 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 44.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 44.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         HapticFeedback.lightImpact();
                         await PostsTable().insert({
                           'isGroupPost': true,
-                          'GroupLink': widget!.id,
+                          'GroupLink': widget.id,
                           'Description': _model.shortBioTextController.text,
                           'created_by': FFAppState().LoggedInUserUUID,
                         });
@@ -337,9 +337,9 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                         width: 270.0,
                         height: 50.0,
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleMedium.override(
@@ -361,7 +361,7 @@ class _NewGroupPostWidgetState extends State<NewGroupPostWidget>
                                       .fontStyle,
                                 ),
                         elevation: 3.0,
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.transparent,
                           width: 1.0,
                         ),

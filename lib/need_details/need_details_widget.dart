@@ -63,8 +63,8 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 400.0.ms,
-            begin: Offset(0.0, 100.0),
-            end: Offset(0.0, 0.0),
+            begin: const Offset(0.0, 100.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -138,7 +138,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
       future: NeedsTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
           'UUID',
-          widget!.need?.uuid,
+          widget.need?.uuid,
         ),
       ),
       builder: (context, snapshot) {
@@ -214,7 +214,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                               .fontStyle,
                         ),
                   ),
-                ].divide(SizedBox(height: 4.0)),
+                ].divide(const SizedBox(height: 4.0)),
               ),
               actions: [
                 FFButtonWidget(
@@ -225,10 +225,10 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: Color(0x004B39EF),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0x004B39EF),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FontWeight.normal,
@@ -253,12 +253,12 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textController1 ??=
@@ -309,14 +309,14 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -373,7 +373,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       child: TextFormField(
                         controller: _model.textController2 ??=
@@ -424,14 +424,14 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                                         .fontStyle,
                                   ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Color(0x00000000),
                               width: 1.0,
                             ),
@@ -497,7 +497,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             10.0, 0.0, 10.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -529,7 +529,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                               value: _model.switchValue!,
                               onChanged: (newValue) async {
                                 safeSetState(
-                                    () => _model.switchValue = newValue!);
+                                    () => _model.switchValue = newValue);
                               },
                               activeColor:
                                   FlutterFlowTheme.of(context).yaleBlue,
@@ -546,7 +546,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
@@ -555,7 +555,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
@@ -569,7 +569,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(40.0),
                                     child: Image.network(
@@ -587,7 +587,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
                                         'Randy Rudolph',
@@ -615,7 +615,7 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 4.0, 0.0, 0.0),
                                       child: Text(
                                         'name@domain.com',
@@ -665,8 +665,8 @@ class _NeedDetailsWidgetState extends State<NeedDetailsWidget>
                           animationsMap['containerOnPageLoadAnimation']!),
                     ),
                   ]
-                      .divide(SizedBox(height: 10.0))
-                      .addToStart(SizedBox(height: 16.0)),
+                      .divide(const SizedBox(height: 10.0))
+                      .addToStart(const SizedBox(height: 16.0)),
                 ),
               ),
             ),

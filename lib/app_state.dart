@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '/backend/api_requests/api_manager.dart';
-import 'backend/supabase/supabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
@@ -47,7 +45,7 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  bool _HasCompletedOnboarding = false;
+  bool _HasCompletedOnboarding = true;
   bool get HasCompletedOnboarding => _HasCompletedOnboarding;
   set HasCompletedOnboarding(bool value) {
     _HasCompletedOnboarding = value;
