@@ -106,11 +106,12 @@ class _SplashContent extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withValues(alpha: 0.10),
+                  Colors.black.withValues(alpha: 0.35),
+                  Colors.black.withValues(alpha: 0.15),
                   Colors.black.withValues(alpha: 0.30),
                   Colors.black.withValues(alpha: 0.70),
                 ],
-                stops: const [0.0, 0.5, 1.0],
+                stops: const [0.0, 0.25, 0.5, 1.0],
               ),
             ),
           ),
@@ -119,9 +120,11 @@ class _SplashContent extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 32.0, vertical: 48.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 12.0),
+                  const _AnimatedAppName(),
+                  const Spacer(),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: verseText == null
@@ -168,6 +171,106 @@ class _SplashContent extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _AnimatedAppName extends StatefulWidget {
+  const _AnimatedAppName();
+
+  @override
+  State<_AnimatedAppName> createState() => _AnimatedAppNameState();
+}
+
+class _AnimatedAppNameState extends State<_AnimatedAppName>
+    with TickerProviderStateMixin {
+  late final AnimationController _entrance = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1800),
+  );
+  late final AnimationController _pulse = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2600),
+  );
+  late final Animation<double> _fade = CurvedAnimation(
+    parent: _entrance,
+    curve: const Interval(0.0, 0.8, curve: Curves.easeOut),
+  );
+  late final Animation<double> _entranceScale = Tween<double>(
+          begin: 0.82, end: 1.0)
+      .animate(CurvedAnimation(parent: _entrance, curve: Curves.easeOutCubic));
+  late final Animation<Offset> _slide = Tween<Offset>(
+    begin: const Offset(0.0, 0.4),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(parent: _entrance, curve: Curves.easeOutCubic));
+  late final Animation<double> _pulseScale = Tween<double>(
+    begin: 1.0,
+    end: 1.035,
+  ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
+  late final Animation<double> _pulseGlow = Tween<double>(
+    begin: 0.4,
+    end: 0.85,
+  ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
+
+  @override
+  void initState() {
+    super.initState();
+    // Play the one-shot entrance first, then loop a gentle breathing
+    // glow so the wordmark keeps feeling alive for the whole splash,
+    // however long it's displayed for.
+    _entrance.forward().whenComplete(() {
+      if (mounted) {
+        _pulse.repeat(reverse: true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _entrance.dispose();
+    _pulse.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fade,
+      child: SlideTransition(
+        position: _slide,
+        child: ScaleTransition(
+          scale: _entranceScale,
+          child: AnimatedBuilder(
+            animation: _pulse,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: _pulseScale.value,
+                child: Text(
+                  'Rocktivate',
+                  style: GoogleFonts.playfairDisplay(
+                    color: Colors.white,
+                    fontSize: 58.0,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.0,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.4),
+                        blurRadius: 20.0,
+                        offset: const Offset(0.0, 4.0),
+                      ),
+                      Shadow(
+                        color: Colors.white
+                            .withValues(alpha: _pulseGlow.value * 0.5),
+                        blurRadius: 28.0,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

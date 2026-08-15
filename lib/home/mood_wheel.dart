@@ -99,7 +99,7 @@ class _MoodWheelState extends State<MoodWheel>
   Widget build(BuildContext context) {
     final theme = FlutterFlowTheme.of(context);
     // Extra room around the ring for the outside mood labels.
-    final areaSize = widget.diameter + 92.0;
+    final areaSize = widget.diameter + 120.0;
     final ringRadius = widget.diameter / 2;
     final selectedAngle = _sectorAngle * _selectedIndex;
     final currentMood = widget.moods[_selectedIndex];
@@ -353,14 +353,14 @@ class _MoodLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Labels sit just outside the ring, at the same angle as their dot.
-    final labelRadius = radius + 26.0;
+    final labelRadius = radius + 38.0;
     final dx = labelRadius * math.sin(angle);
     final dy = -labelRadius * math.cos(angle);
-    const labelWidth = 92.0;
+    const labelWidth = 104.0;
 
     return Positioned(
       left: areaSize / 2 + dx - labelWidth / 2,
-      top: areaSize / 2 + dy - 9.0,
+      top: areaSize / 2 + dy - 11.0,
       child: SizedBox(
         width: labelWidth,
         child: Text(
@@ -369,7 +369,7 @@ class _MoodLabel extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: GoogleFonts.inter(
-            fontSize: 14.0,
+            fontSize: 17.0,
             fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
             color: selected ? selectedColor : unselectedColor,
           ),
