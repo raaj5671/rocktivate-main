@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:provider/provider.dart';
 import 'chapters_model.dart';
 export 'chapters_model.dart';
@@ -267,18 +268,37 @@ class _ChaptersWidgetState extends State<ChaptersWidget>
                           );
                           debugLogWidgetClass(_model);
 
-                          return ListView.separated(
+                          return GridView.builder(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 1.0,
+                            ),
                             itemCount: bible.length,
-                            separatorBuilder: (_, __) => const SizedBox(height: 10.0),
                             itemBuilder: (context, bibleIndex) {
                               final bibleItem = bible[bibleIndex];
+                              final isDarkTile = Theme.of(context).brightness ==
+                                  Brightness.dark;
+                              const tileTintDark = Color(0xFF12161F);
+                              const tileGoldDark = Color(0xFFD4AF37);
+                              const tileWhiteLight = Color(0xFFFFFFFF);
+                              const tileGoldLight = Color(0xFFB8823A);
+                              final tileBg =
+                                  isDarkTile ? tileTintDark : tileWhiteLight;
+                              final tileBgAlpha = isDarkTile ? 0.65 : 0.85;
+                              final tileTextColor = isDarkTile
+                                  ? FlutterFlowTheme.of(context).info
+                                  : FlutterFlowTheme.of(context).primaryText;
+
                               return InkWell(
                                 splashColor: Colors.transparent,
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
+                                borderRadius: BorderRadius.circular(16.0),
                                 onTap: () async {
                                   HapticFeedback.lightImpact();
 
@@ -306,99 +326,86 @@ class _ChaptersWidgetState extends State<ChaptersWidget>
                                     }.withoutNulls,
                                   );
                                 },
-                                child: Material(
-                                  color: Colors.transparent,
-                                  elevation: 2.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          FlutterFlowTheme.of(context).primary,
-                                          FlutterFlowTheme.of(context).secondary
-                                        ],
-                                        stops: const [0.0, 1.0],
-                                        begin: const AlignmentDirectional(1.0, 0.87),
-                                        end: const AlignmentDirectional(-1.0, -0.87),
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    border: Border.all(
+                                      color: isDarkTile
+                                          ? Colors.white.withValues(alpha: 0.10)
+                                          : tileGoldLight.withValues(
+                                              alpha: 0.35),
+                                      width: 1.0,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                getJsonField(
-                                                  bibleItem,
-                                                  r'''$.reference''',
-                                                ).toString(),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          font: GoogleFonts
-                                                              .interTight(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .fontStyle,
-                                                          ),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontStyle,
-                                                        ),
-                                              ),
-                                            ],
-                                          ),
-                                          InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              HapticFeedback.lightImpact();
-                                            },
-                                            child: Icon(
-                                              Icons.chevron_right_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .alternate,
-                                              size: 24.0,
+                                    boxShadow: isDarkTile
+                                        ? [
+                                            BoxShadow(
+                                              color: tileGoldDark.withValues(
+                                                  alpha: 0.32),
+                                              blurRadius: 10.0,
+                                              spreadRadius: -2.0,
+                                            ),
+                                          ]
+                                        : [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.10),
+                                              blurRadius: 10.0,
+                                              offset: const Offset(0.0, 3.0),
+                                            ),
+                                          ],
+                                  ),
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      // Opaque backing so nothing behind
+                                      // this tile bleeds through the glass
+                                      // layer's translucency.
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: tileBg,
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                      ),
+                                      GlassCard(
+                                        padding: EdgeInsets.zero,
+                                        useOwnLayer: true,
+                                        quality: GlassQuality.standard,
+                                        shape: const LiquidRoundedRectangle(
+                                          borderRadius: 16.0,
+                                        ),
+                                        settings: LiquidGlassSettings(
+                                          glassColor: tileBg.withValues(
+                                              alpha: tileBgAlpha),
+                                          standardOpacityMultiplier: 1.0,
+                                          thickness: 40,
+                                          blur: 16.0,
+                                          whitenStrength: 0.0,
+                                          glowIntensity: 0.0,
+                                          fresnelStrength: 0.2,
+                                          ambientRim: 0.05,
+                                          lightIntensity: 0.6,
+                                          refractiveIndex: 1.3,
+                                          shadowElevation: 0.0,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            getJsonField(
+                                              bibleItem,
+                                              r'''$.number''',
+                                            ).toString(),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.interTight(
+                                              color: tileTextColor,
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ).animateOnPageLoad(animationsMap[
