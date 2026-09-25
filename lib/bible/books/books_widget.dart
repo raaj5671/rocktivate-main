@@ -14,18 +14,28 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'books_model.dart';
 export 'books_model.dart';
+
+const _kContinueReadingPrefsKey = 'bible_continue_reading';
+const _kGoldAccent = Color(0xFFBFA46A);
 
 class BooksWidget extends StatefulWidget {
   const BooksWidget({
     super.key,
     String? title,
     required this.bibleid,
+    this.version,
+    this.initialBookId,
+    this.initialChapterNumber,
   }) : title = title ?? 'Books';
 
   final String title;
   final String? bibleid;
+  final String? version;
+  final String? initialBookId;
+  final String? initialChapterNumber;
 
   static String routeName = 'Books';
   static String routePath = '/books';
@@ -42,12 +52,25 @@ class _BooksWidgetState extends State<BooksWidget>
 
   final animationsMap = <String, AnimationInfo>{};
   final _searchController = TextEditingController();
+  final _booksScrollController = ScrollController();
   String _searchQuery = '';
+  String? _expandedBookId;
+  Map<String, dynamic>? _continueEntry;
+  final Map<String, GlobalKey> _bookRowKeys = {};
+  bool _scrolledToInitial = false;
+
+  // Collapsed book row: ~16px container padding top+bottom, ~24px of
+  // Noto Serif 20 text, plus the 12px gap below each row. Close enough to
+  // jump the list near the target book so its row actually gets built by
+  // ListView.builder, which we then fine-tune with ensureVisible.
+  static const _kEstimatedRowHeight = 76.0;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => BooksModel());
+    _expandedBookId = widget.initialBookId;
+    _loadContinueEntry();
 
     animationsMap.addAll({
       'containerOnPageLoadAnimation': AnimationInfo(
@@ -78,10 +101,44 @@ class _BooksWidgetState extends State<BooksWidget>
     );
   }
 
+  Future<void> _loadContinueEntry() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_kContinueReadingPrefsKey);
+    if (raw == null) return;
+    try {
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      if (mounted) setState(() => _continueEntry = decoded);
+    } catch (_) {
+      // Ignore a corrupted/old-format entry.
+    }
+  }
+
+  void _openChapter({
+    required String? bibleid,
+    required String chapterId,
+    required String title,
+    String? version,
+  }) {
+    HapticFeedback.lightImpact();
+    context.pushNamed(
+      ChapterDataWidget.routeName,
+      queryParameters: {
+        'title': serializeParam(title, ParamType.String),
+        'bibleid': serializeParam(bibleid, ParamType.String),
+        'chapterid': serializeParam(chapterId, ParamType.String),
+        'version': serializeParam(
+          version ?? widget.version,
+          ParamType.String,
+        ),
+      }.withoutNulls,
+    );
+  }
+
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
     _searchController.dispose();
+    _booksScrollController.dispose();
 
     _model.dispose();
 
@@ -110,6 +167,8 @@ class _BooksWidgetState extends State<BooksWidget>
       setState(() => _model.isRouteVisible = true);
       debugLogWidgetClass(_model);
     }
+    // The reader may have updated "where you left off" while we were away.
+    _loadContinueEntry();
   }
 
   @override
@@ -136,6 +195,25 @@ class _BooksWidgetState extends State<BooksWidget>
         ?.parentModelCallback
         ?.call(_model);
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final scaffoldBg = isDark
+        ? const Color(0xFF07070A)
+        : FlutterFlowTheme.of(context).primaryBackground;
+    final primaryTextColor =
+        isDark ? Colors.white : FlutterFlowTheme.of(context).primaryText;
+    final secondaryTextColor = isDark
+        ? const Color(0xFF9A9AA2)
+        : FlutterFlowTheme.of(context).secondaryText;
+    final searchFieldBg = isDark
+        ? const Color(0xFF1A1A1E)
+        : FlutterFlowTheme.of(context).alternate;
+    final circleBg = isDark
+        ? const Color(0xFF1A1A1E)
+        : FlutterFlowTheme.of(context).alternate;
+    final tileBg = isDark ? const Color(0xFF1E1E22) : const Color(0xFFECECEC);
+    final continueBg =
+        isDark ? const Color(0xFF17140C) : const Color(0xFFFBF6EA);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -143,27 +221,38 @@ class _BooksWidgetState extends State<BooksWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: scaffoldBg,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-          iconTheme:
-              IconThemeData(color: FlutterFlowTheme.of(context).secondaryText),
-          automaticallyImplyLeading: true,
+          backgroundColor: scaffoldBg,
+          iconTheme: IconThemeData(color: primaryTextColor),
+          automaticallyImplyLeading: false,
+          leadingWidth: 64.0,
+          leading: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 16.0),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              customBorder: const CircleBorder(),
+              onTap: () => Navigator.maybePop(context),
+              child: Container(
+                width: 40.0,
+                height: 40.0,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: circleBg),
+                child: Icon(Icons.close_rounded,
+                    color: primaryTextColor, size: 20.0),
+              ),
+            ),
+          ),
           title: Text(
-            widget.title,
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-                  font: GoogleFonts.interTight(
-                    fontWeight:
-                        FlutterFlowTheme.of(context).titleMedium.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).titleMedium.fontStyle,
-                  ),
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  letterSpacing: 0.0,
-                  fontWeight:
-                      FlutterFlowTheme.of(context).titleMedium.fontWeight,
-                  fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
-                ),
+            'Books',
+            style: GoogleFonts.interTight(
+              color: primaryTextColor,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           actions: const [],
           centerTitle: true,
@@ -172,7 +261,7 @@ class _BooksWidgetState extends State<BooksWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 8.0, 20.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future: BibleAPIGroup.booksCall.call(
                 bibleID: widget.bibleid,
@@ -215,290 +304,357 @@ class _BooksWidgetState extends State<BooksWidget>
                 );
                 debugLogWidgetClass(_model);
 
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (value) => setState(
-                          () => _searchQuery = value.trim().toLowerCase(),
+                final allBooks = BibleAPIGroup.booksCall
+                        .data(
+                          columnBooksResponse.jsonBody,
+                        )
+                        ?.toList() ??
+                    [];
+                _model.debugGeneratorVariables[
+                        'bible${allBooks.length > 100 ? ' (first 100)' : ''}'] =
+                    debugSerializeParam(
+                  allBooks.take(100),
+                  ParamType.JSON,
+                  isList: true,
+                  link:
+                      'https://app.flutterflow.io/project/rocktivate-supabase-qbw8kn?tab=uiBuilder&page=Books',
+                  name: 'dynamic',
+                  nullable: false,
+                );
+                debugLogWidgetClass(_model);
+
+                final filteredBooks = _searchQuery.isEmpty
+                    ? allBooks
+                    : allBooks.where((bookItem) {
+                        final name = getJsonField(bookItem, r'''$.name''')
+                            .toString()
+                            .toLowerCase();
+                        final nameLong =
+                            getJsonField(bookItem, r'''$.nameLong''')
+                                .toString()
+                                .toLowerCase();
+                        return name.contains(_searchQuery) ||
+                            nameLong.contains(_searchQuery);
+                      }).toList();
+
+                Widget buildChapterGrid(
+                  String bookId,
+                  String bookName,
+                  List<Map> chapters,
+                ) {
+                  final continueChapterNumber = widget.initialBookId == bookId
+                      ? widget.initialChapterNumber
+                      : (_continueEntry != null &&
+                              _continueEntry!['bookId'] == bookId)
+                          ? _continueEntry!['chapterNumber']?.toString()
+                          : null;
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 6,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: chapters.length,
+                    itemBuilder: (context, chapterIndex) {
+                      final chapter = chapters[chapterIndex];
+                      final number = chapter['number'].toString();
+                      final chapterId = chapter['id'].toString();
+                      final isCurrent = continueChapterNumber == number;
+
+                      return GlassButton.custom(
+                        onTap: () => _openChapter(
+                          bibleid: widget.bibleid,
+                          chapterId: chapterId,
+                          title: '$bookName $number',
                         ),
-                        style: GoogleFonts.inter(
-                          color: FlutterFlowTheme.of(context).primaryText,
+                        useOwnLayer: true,
+                        width: double.infinity,
+                        height: double.infinity,
+                        style: isCurrent
+                            ? GlassButtonStyle.prominent
+                            : GlassButtonStyle.filled,
+                        shape: const LiquidRoundedRectangle(
+                            borderRadius: 10.0),
+                        settings: isCurrent
+                            ? LiquidGlassSettings(
+                                glassColor: FlutterFlowTheme.of(context)
+                                    .primary
+                                    .withValues(alpha: 0.5),
+                                thickness: 40,
+                                blur: 16.0,
+                                lightIntensity: 0.6,
+                                refractiveIndex: 1.3,
+                              )
+                            : null,
+                        child: Text(
+                          number,
+                          style: GoogleFonts.inter(
+                            color: isCurrent ? Colors.white : primaryTextColor,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        decoration: InputDecoration(
-                          hintText: 'Search by book, e.g. Genesis',
-                          hintStyle: GoogleFonts.inter(
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
-                          suffixIcon: _searchQuery.isNotEmpty
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.close_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                  ),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() => _searchQuery = '');
-                                  },
+                      );
+                    },
+                  );
+                }
+
+                Widget buildBookRow(dynamic bookItem) {
+                  final bookId = getJsonField(bookItem, r'''$.id''').toString();
+                  final bookName =
+                      getJsonField(bookItem, r'''$.name''').toString();
+                  final chaptersRaw =
+                      getJsonField(bookItem, r'''$.chapters''') as List? ?? [];
+                  final chapters = chaptersRaw
+                      .whereType<Map>()
+                      .where((c) => c['number'] != 'intro')
+                      .toList()
+                    ..sort((a, b) => ((a['position'] as num?) ?? 0)
+                        .compareTo((b['position'] as num?) ?? 0));
+                  final isExpanded = _expandedBookId == bookId;
+                  final rowKey =
+                      _bookRowKeys.putIfAbsent(bookId, () => GlobalKey());
+
+                  return Padding(
+                    key: rowKey,
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GlassButton.custom(
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            setState(() =>
+                                _expandedBookId = isExpanded ? null : bookId);
+                          },
+                          useOwnLayer: true,
+                          width: double.infinity,
+                          style: isExpanded
+                              ? GlassButtonStyle.prominent
+                              : GlassButtonStyle.filled,
+                          shape: const LiquidRoundedRectangle(
+                              borderRadius: 16.0),
+                          settings: isExpanded
+                              ? LiquidGlassSettings(
+                                  glassColor:
+                                      _kGoldAccent.withValues(alpha: 0.35),
+                                  thickness: 40,
+                                  blur: 16.0,
+                                  lightIntensity: 0.6,
+                                  refractiveIndex: 1.3,
                                 )
                               : null,
-                          filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 12.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide.none,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    bookName,
+                                    style: GoogleFonts.notoSerif(
+                                      color: primaryTextColor,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: circleBg,
+                                  ),
+                                  child: Icon(
+                                    isExpanded
+                                        ? Icons.keyboard_arrow_down_rounded
+                                        : Icons.chevron_right_rounded,
+                                    color: primaryTextColor,
+                                    size: 22.0,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                        ),
+                        if (isExpanded) ...[
+                          const SizedBox(height: 16.0),
+                          buildChapterGrid(bookId, bookName, chapters),
+                        ],
+                      ],
+                    ),
+                  );
+                }
+
+                if (!_scrolledToInitial && widget.initialBookId != null) {
+                  final targetIndex = filteredBooks.indexWhere((b) =>
+                      getJsonField(b, r'''$.id''').toString() ==
+                      widget.initialBookId);
+                  if (targetIndex > 0) {
+                    _scrolledToInitial = true;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!_booksScrollController.hasClients) return;
+                      // Jump straight to an estimated offset first so
+                      // ListView.builder actually builds the target row —
+                      // ensureVisible can't scroll to a row that was never
+                      // built because it was still off-screen.
+                      final maxScroll =
+                          _booksScrollController.position.maxScrollExtent;
+                      final estimatedOffset =
+                          (targetIndex * _kEstimatedRowHeight)
+                              .clamp(0.0, maxScroll);
+                      _booksScrollController.jumpTo(estimatedOffset);
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        final rowContext =
+                            _bookRowKeys[widget.initialBookId]?.currentContext;
+                        if (rowContext != null) {
+                          Scrollable.ensureVisible(
+                            rowContext,
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.easeInOut,
+                            alignment: 0.05,
+                          );
+                        }
+                      });
+                    });
+                  }
+                }
+
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextField(
+                      controller: _searchController,
+                      onChanged: (value) => setState(
+                        () => _searchQuery = value.trim().toLowerCase(),
+                      ),
+                      style: GoogleFonts.inter(color: primaryTextColor),
+                      decoration: InputDecoration(
+                        hintText: 'Search books or chapters',
+                        hintStyle: GoogleFonts.inter(color: secondaryTextColor),
+                        prefixIcon: Icon(Icons.search_rounded,
+                            color: secondaryTextColor),
+                        suffixIcon: _searchQuery.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.close_rounded,
+                                    color: secondaryTextColor),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  setState(() => _searchQuery = '');
+                                },
+                              )
+                            : null,
+                        filled: true,
+                        fillColor: searchFieldBg,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 12.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(28.0),
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),
+                    if (_continueEntry != null) ...[
+                      const SizedBox(height: 20.0),
+                      Text(
+                        'CONTINUE',
+                        style: GoogleFonts.inter(
+                          color: secondaryTextColor,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        borderRadius: BorderRadius.circular(16.0),
+                        onTap: () => _openChapter(
+                          bibleid: _continueEntry!['bibleId']?.toString(),
+                          chapterId:
+                              _continueEntry!['chapterId']?.toString() ?? '',
+                          title: _continueEntry!['reference']?.toString() ??
+                              'Continue',
+                          version: _continueEntry!['version']?.toString(),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: continueBg,
+                            border: Border.all(
+                              color: _kGoldAccent.withValues(alpha: 0.55),
+                              width: 1.2,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _continueEntry!['reference']
+                                              ?.toString() ??
+                                          '',
+                                      style: GoogleFonts.notoSerif(
+                                        color: primaryTextColor,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4.0),
+                                    Text(
+                                      'Where you left off',
+                                      style: GoogleFonts.inter(
+                                        color: secondaryTextColor,
+                                        fontSize: 13.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(Icons.chevron_right_rounded,
+                                  color: secondaryTextColor),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 20.0),
                     Expanded(
-                      flex: 1,
-                      child: Builder(
-                        builder: (context) {
-                          final bible = BibleAPIGroup.booksCall
-                                  .data(
-                                    columnBooksResponse.jsonBody,
-                                  )
-                                  ?.toList() ??
-                              [];
-                          _model.debugGeneratorVariables[
-                                  'bible${bible.length > 100 ? ' (first 100)' : ''}'] =
-                              debugSerializeParam(
-                            bible.take(100),
-                            ParamType.JSON,
-                            isList: true,
-                            link:
-                                'https://app.flutterflow.io/project/rocktivate-supabase-qbw8kn?tab=uiBuilder&page=Books',
-                            name: 'dynamic',
-                            nullable: false,
-                          );
-                          debugLogWidgetClass(_model);
-
-                          final filteredBible = _searchQuery.isEmpty
-                              ? bible
-                              : bible.where((bibleItem) {
-                                  final name = getJsonField(
-                                    bibleItem,
-                                    r'''$.name''',
-                                  ).toString().toLowerCase();
-                                  final abbreviation = getJsonField(
-                                    bibleItem,
-                                    r'''$.abbreviation''',
-                                  ).toString().toLowerCase();
-                                  return name.contains(_searchQuery) ||
-                                      abbreviation.contains(_searchQuery);
-                                }).toList();
-
-                          if (filteredBible.isEmpty) {
-                            return Center(
+                      child: filteredBooks.isEmpty
+                          ? Center(
                               child: Text(
                                 'No books match "$_searchQuery"',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.inter(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryText,
+                                  color: secondaryTextColor,
                                   fontSize: 14.0,
                                 ),
                               ),
-                            );
-                          }
-
-                          return GridView.builder(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              crossAxisSpacing: 12.0,
-                              mainAxisSpacing: 12.0,
-                              childAspectRatio: 1.0,
+                            )
+                          : ListView.builder(
+                              controller: _booksScrollController,
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              itemCount: filteredBooks.length,
+                              itemBuilder: (context, bookIndex) =>
+                                  buildBookRow(filteredBooks[bookIndex])
+                                      .animateOnPageLoad(animationsMap[
+                                          'containerOnPageLoadAnimation']!),
                             ),
-                            itemCount: filteredBible.length,
-                            itemBuilder: (context, bibleIndex) {
-                              final bibleItem = filteredBible[bibleIndex];
-                              final isDarkTile = Theme.of(context).brightness ==
-                                  Brightness.dark;
-                              const tileTintDark = Color(0xFF12161F);
-                              const tileGoldDark = Color(0xFFD4AF37);
-                              const tileWhiteLight = Color(0xFFFFFFFF);
-                              const tileGoldLight = Color(0xFFB8823A);
-                              final tileBg =
-                                  isDarkTile ? tileTintDark : tileWhiteLight;
-                              final tileBgAlpha = isDarkTile ? 0.65 : 0.85;
-                              final tileTextColor = isDarkTile
-                                  ? FlutterFlowTheme.of(context).info
-                                  : FlutterFlowTheme.of(context).primaryText;
-                              final tileSubTextColor = isDarkTile
-                                  ? FlutterFlowTheme.of(context)
-                                      .info
-                                      .withValues(alpha: 0.75)
-                                  : FlutterFlowTheme.of(context).secondaryText;
-
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                borderRadius: BorderRadius.circular(20.0),
-                                onTap: () async {
-                                  HapticFeedback.lightImpact();
-
-                                  context.pushNamed(
-                                    ChaptersWidget.routeName,
-                                    queryParameters: {
-                                      'title': serializeParam(
-                                        widget.title,
-                                        ParamType.String,
-                                      ),
-                                      'bibleid': serializeParam(
-                                        widget.bibleid,
-                                        ParamType.String,
-                                      ),
-                                      'bookid': serializeParam(
-                                        getJsonField(
-                                          bibleItem,
-                                          r'''$.id''',
-                                        ).toString(),
-                                        ParamType.String,
-                                      ),
-                                      'bookName': serializeParam(
-                                        getJsonField(
-                                          bibleItem,
-                                          r'''$.name''',
-                                        ).toString(),
-                                        ParamType.String,
-                                      ),
-                                    }.withoutNulls,
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    border: Border.all(
-                                      color: isDarkTile
-                                          ? Colors.white.withValues(alpha: 0.10)
-                                          : tileGoldLight.withValues(
-                                              alpha: 0.35),
-                                      width: 1.0,
-                                    ),
-                                    boxShadow: isDarkTile
-                                        ? [
-                                            BoxShadow(
-                                              color: tileGoldDark.withValues(
-                                                  alpha: 0.32),
-                                              blurRadius: 10.0,
-                                              spreadRadius: -2.0,
-                                            ),
-                                          ]
-                                        : [
-                                            BoxShadow(
-                                              color: Colors.black
-                                                  .withValues(alpha: 0.10),
-                                              blurRadius: 10.0,
-                                              offset: const Offset(0.0, 3.0),
-                                            ),
-                                          ],
-                                  ),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      // Opaque backing so nothing behind
-                                      // this tile bleeds through the glass
-                                      // layer's translucency.
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: tileBg,
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                      ),
-                                      GlassCard(
-                                        padding: EdgeInsets.zero,
-                                        useOwnLayer: true,
-                                        quality: GlassQuality.standard,
-                                        shape: const LiquidRoundedRectangle(
-                                          borderRadius: 20.0,
-                                        ),
-                                        settings: LiquidGlassSettings(
-                                          glassColor: tileBg.withValues(
-                                              alpha: tileBgAlpha),
-                                          standardOpacityMultiplier: 1.0,
-                                          thickness: 40,
-                                          blur: 16.0,
-                                          whitenStrength: 0.0,
-                                          glowIntensity: 0.0,
-                                          fresnelStrength: 0.2,
-                                          ambientRim: 0.05,
-                                          lightIntensity: 0.6,
-                                          refractiveIndex: 1.3,
-                                          shadowElevation: 0.0,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                getJsonField(
-                                                  bibleItem,
-                                                  r'''$.name''',
-                                                ).toString(),
-                                                textAlign: TextAlign.center,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.interTight(
-                                                  color: tileTextColor,
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 1.15,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4.0),
-                                              Text(
-                                                getJsonField(
-                                                  bibleItem,
-                                                  r'''$.abbreviation''',
-                                                ).toString(),
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.inter(
-                                                  color: tileSubTextColor,
-                                                  fontSize: 9.0,
-                                                  fontWeight: FontWeight.w600,
-                                                  letterSpacing: 0.3,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ).animateOnPageLoad(animationsMap[
-                                  'containerOnPageLoadAnimation']!);
-                            },
-                          );
-                        },
-                      ),
                     ),
-                  ]
-                      .divide(const SizedBox(height: 10.0))
-                      .around(const SizedBox(height: 10.0)),
+                  ],
                 );
               },
             ),

@@ -36,11 +36,7 @@ class _BiblesWidgetState extends State<BiblesWidget>
   final animationsMap = <String, AnimationInfo>{};
   final _searchController = TextEditingController();
   String _searchQuery = '';
-
-  // Curated so first-time users see the most recognizable English
-  // translations pinned above the full alphabetical catalog, rather than
-  // being dropped into 30+ undifferentiated options.
-  static const _popularAbbreviations = ['KJV', 'ASV', 'WEB'];
+  bool _audioOnly = false;
 
   @override
   void initState() {
@@ -134,6 +130,27 @@ class _BiblesWidgetState extends State<BiblesWidget>
         ?.parentModelCallback
         ?.call(_model);
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final scaffoldBg = isDark
+        ? const Color(0xFF07070A)
+        : FlutterFlowTheme.of(context).primaryBackground;
+    final primaryTextColor =
+        isDark ? Colors.white : FlutterFlowTheme.of(context).primaryText;
+    final secondaryTextColor = isDark
+        ? const Color(0xFF9A9AA2)
+        : FlutterFlowTheme.of(context).secondaryText;
+    final searchFieldBg = isDark
+        ? const Color(0xFF1A1A1E)
+        : FlutterFlowTheme.of(context).alternate;
+    final badgeBg = isDark ? const Color(0xFF1E1E22) : const Color(0xFFECECEC);
+    final pillSelectedBg =
+        isDark ? Colors.white : FlutterFlowTheme.of(context).primaryText;
+    final pillSelectedText =
+        isDark ? Colors.black : FlutterFlowTheme.of(context).primaryBackground;
+    final pillUnselectedBg = isDark
+        ? const Color(0xFF1A1A1E)
+        : FlutterFlowTheme.of(context).alternate;
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -141,28 +158,12 @@ class _BiblesWidgetState extends State<BiblesWidget>
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: scaffoldBg,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-          iconTheme:
-              IconThemeData(color: FlutterFlowTheme.of(context).secondaryText),
+          backgroundColor: scaffoldBg,
+          iconTheme: IconThemeData(color: primaryTextColor),
           automaticallyImplyLeading: true,
-          title: Text(
-            'Bibles',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-                  font: GoogleFonts.interTight(
-                    fontWeight:
-                        FlutterFlowTheme.of(context).titleMedium.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).titleMedium.fontStyle,
-                  ),
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  letterSpacing: 0.0,
-                  fontWeight:
-                      FlutterFlowTheme.of(context).titleMedium.fontWeight,
-                  fontStyle: FlutterFlowTheme.of(context).titleMedium.fontStyle,
-                ),
-          ),
+          title: const SizedBox.shrink(),
           actions: const [],
           centerTitle: true,
           elevation: 0.0,
@@ -170,7 +171,7 @@ class _BiblesWidgetState extends State<BiblesWidget>
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
             child: FutureBuilder<ApiCallResponse>(
               future: BibleAPIGroup.biblesCall.call(),
               builder: (context, snapshot) {
@@ -211,366 +212,306 @@ class _BiblesWidgetState extends State<BiblesWidget>
                 );
                 debugLogWidgetClass(_model);
 
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (value) => setState(
-                          () => _searchQuery = value.trim().toLowerCase(),
-                        ),
-                        style: GoogleFonts.inter(
-                          color: FlutterFlowTheme.of(context).primaryText,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Search by name or abbreviation',
-                          hintStyle: GoogleFonts.inter(
-                            color: FlutterFlowTheme.of(context).secondaryText,
+                return Builder(
+                  builder: (context) {
+                    final allBibles = BibleAPIGroup.biblesCall
+                            .data(
+                              columnBiblesResponse.jsonBody,
+                            )
+                            ?.toList() ??
+                        [];
+                    _model.debugGeneratorVariables[
+                            'bible${allBibles.length > 100 ? ' (first 100)' : ''}'] =
+                        debugSerializeParam(
+                      allBibles.take(100),
+                      ParamType.JSON,
+                      isList: true,
+                      link:
+                          'https://app.flutterflow.io/project/rocktivate-supabase-qbw8kn?tab=uiBuilder&page=Bibles',
+                      name: 'dynamic',
+                      nullable: false,
+                    );
+                    debugLogWidgetClass(_model);
+
+                    bool hasAudio(dynamic bibleItem) {
+                      final audioBibles = getJsonField(
+                        bibleItem,
+                        r'''$.audioBibles''',
+                        true,
+                      ) as List?;
+                      return audioBibles != null && audioBibles.isNotEmpty;
+                    }
+
+                    final filtered = allBibles.where((bibleItem) {
+                      if (_audioOnly && !hasAudio(bibleItem)) return false;
+                      if (_searchQuery.isEmpty) return true;
+                      final name = getJsonField(bibleItem, r'''$.name''')
+                          .toString()
+                          .toLowerCase();
+                      final abbreviation =
+                          getJsonField(bibleItem, r'''$.abbreviationLocal''')
+                              .toString()
+                              .toLowerCase();
+                      return name.contains(_searchQuery) ||
+                          abbreviation.contains(_searchQuery);
+                    }).toList();
+
+                    Widget buildPill({
+                      required String label,
+                      required bool selected,
+                      required VoidCallback onTap,
+                    }) {
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        borderRadius: BorderRadius.circular(24.0),
+                        onTap: onTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                            color: selected ? pillSelectedBg : pillUnselectedBg,
+                            borderRadius: BorderRadius.circular(24.0),
                           ),
-                          prefixIcon: Icon(
-                            Icons.search_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                          ),
-                          suffixIcon: _searchQuery.isNotEmpty
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.close_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                  ),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() => _searchQuery = '');
-                                  },
-                                )
-                              : null,
-                          filled: true,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 12.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide.none,
+                          child: Text(
+                            label,
+                            style: GoogleFonts.inter(
+                              color: selected
+                                  ? pillSelectedText
+                                  : primaryTextColor,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Builder(
-                        builder: (context) {
-                          final bible = BibleAPIGroup.biblesCall
-                                  .data(
-                                    columnBiblesResponse.jsonBody,
+                      );
+                    }
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12.0),
+                        Text(
+                          '${allBibles.length} versions in English',
+                          style: GoogleFonts.interTight(
+                            color: primaryTextColor,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        TextField(
+                          controller: _searchController,
+                          onChanged: (value) => setState(
+                            () => _searchQuery = value.trim().toLowerCase(),
+                          ),
+                          style: GoogleFonts.inter(color: primaryTextColor),
+                          decoration: InputDecoration(
+                            hintText: 'Search Versions',
+                            hintStyle:
+                                GoogleFonts.inter(color: secondaryTextColor),
+                            prefixIcon: Icon(Icons.search_rounded,
+                                color: secondaryTextColor),
+                            suffixIcon: _searchQuery.isNotEmpty
+                                ? IconButton(
+                                    icon: Icon(Icons.close_rounded,
+                                        color: secondaryTextColor),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                      setState(() => _searchQuery = '');
+                                    },
                                   )
-                                  ?.toList() ??
-                              [];
-                          _model.debugGeneratorVariables[
-                                  'bible${bible.length > 100 ? ' (first 100)' : ''}'] =
-                              debugSerializeParam(
-                            bible.take(100),
-                            ParamType.JSON,
-                            isList: true,
-                            link:
-                                'https://app.flutterflow.io/project/rocktivate-supabase-qbw8kn?tab=uiBuilder&page=Bibles',
-                            name: 'dynamic',
-                            nullable: false,
-                          );
-                          debugLogWidgetClass(_model);
-
-                          final filtered = _searchQuery.isEmpty
-                              ? bible
-                              : bible.where((item) {
-                                  final name = getJsonField(item, r'''$.name''')
-                                      .toString()
-                                      .toLowerCase();
-                                  final abbr =
-                                      getJsonField(item, r'''$.abbreviation''')
-                                          .toString()
-                                          .toLowerCase();
-                                  final abbrLocal = getJsonField(
-                                          item, r'''$.abbreviationLocal''')
-                                      .toString()
-                                      .toLowerCase();
-                                  return name.contains(_searchQuery) ||
-                                      abbr.contains(_searchQuery) ||
-                                      abbrLocal.contains(_searchQuery);
-                                }).toList();
-
-                          final popular = <dynamic>[];
-                          if (_searchQuery.isEmpty) {
-                            final seen = <String>{};
-                            for (final abbr in _popularAbbreviations) {
-                              for (final item in bible) {
-                                final abbrLocal = getJsonField(
-                                        item, r'''$.abbreviationLocal''')
-                                    .toString()
-                                    .toUpperCase();
-                                if (abbrLocal == abbr && !seen.contains(abbr)) {
-                                  popular.add(item);
-                                  seen.add(abbr);
-                                  break;
-                                }
-                              }
-                            }
-                          }
-
-                          Widget buildTile(dynamic bibleItem) {
-                            final isDarkTile =
-                                Theme.of(context).brightness == Brightness.dark;
-                            const tileTintDark = Color(0xFF12161F);
-                            const tileGoldDark = Color(0xFFD4AF37);
-                            const tileWhiteLight = Color(0xFFFFFFFF);
-                            const tileGoldLight = Color(0xFFB8823A);
-                            final tileBg =
-                                isDarkTile ? tileTintDark : tileWhiteLight;
-                            final tileBgAlpha = isDarkTile ? 0.65 : 0.85;
-                            final tileTextColor = isDarkTile
-                                ? FlutterFlowTheme.of(context).info
-                                : FlutterFlowTheme.of(context).primaryText;
-                            final tileSubTextColor = isDarkTile
-                                ? FlutterFlowTheme.of(context)
-                                    .info
-                                    .withValues(alpha: 0.75)
-                                : FlutterFlowTheme.of(context).secondaryText;
-
-                            final name = getJsonField(bibleItem, r'''$.name''')
-                                .toString();
-                            final abbrLocal = getJsonField(
-                                    bibleItem, r'''$.abbreviationLocal''')
-                                .toString();
-                            final description = getJsonField(
-                                    bibleItem, r'''$.descriptionLocal''')
-                                .toString();
-                            final hasUsefulDescription =
-                                description.isNotEmpty &&
-                                    description.toLowerCase() != 'common';
-                            final subtitle = hasUsefulDescription
-                                ? '$abbrLocal · $description'
-                                : abbrLocal;
-
-                            return InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20.0),
-                              onTap: () async {
-                                HapticFeedback.lightImpact();
-
-                                context.pushNamed(
-                                  BooksWidget.routeName,
-                                  queryParameters: {
-                                    'title': serializeParam(
-                                      name,
-                                      ParamType.String,
-                                    ),
-                                    'bibleid': serializeParam(
-                                      getJsonField(
-                                        bibleItem,
-                                        r'''$.id''',
-                                      ).toString(),
-                                      ParamType.String,
-                                    ),
-                                  }.withoutNulls,
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                    color: isDarkTile
-                                        ? Colors.white.withValues(alpha: 0.10)
-                                        : tileGoldLight.withValues(alpha: 0.35),
-                                    width: 1.0,
-                                  ),
-                                  boxShadow: isDarkTile
-                                      ? [
-                                          BoxShadow(
-                                            color: tileGoldDark.withValues(
-                                                alpha: 0.32),
-                                            blurRadius: 10.0,
-                                            spreadRadius: -2.0,
-                                          ),
-                                        ]
-                                      : [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withValues(alpha: 0.10),
-                                            blurRadius: 10.0,
-                                            offset: const Offset(0.0, 3.0),
-                                          ),
-                                        ],
+                                : null,
+                            filled: true,
+                            fillColor: searchFieldBg,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 12.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(28.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 14.0),
+                        Row(
+                          children: [
+                            buildPill(
+                              label: 'All',
+                              selected: !_audioOnly,
+                              onTap: () => setState(() => _audioOnly = false),
+                            ),
+                            const SizedBox(width: 10.0),
+                            buildPill(
+                              label: 'Audio available',
+                              selected: _audioOnly,
+                              onTap: () => setState(() => _audioOnly = true),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20.0),
+                        Row(
+                          children: [
+                            Icon(Icons.language_rounded,
+                                color: primaryTextColor, size: 20.0),
+                            const SizedBox(width: 10.0),
+                            Text(
+                              'English',
+                              style: GoogleFonts.interTight(
+                                color: primaryTextColor,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 3.0),
+                              decoration: BoxDecoration(
+                                color: pillUnselectedBg,
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text(
+                                '${allBibles.length}',
+                                style: GoogleFonts.inter(
+                                  color: secondaryTextColor,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    // Opaque backing so nothing behind
-                                    // this tile bleeds through the glass
-                                    // layer's translucency.
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: tileBg,
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8.0),
+                        Expanded(
+                          child: filtered.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'No versions match "$_searchQuery"',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      color: secondaryTextColor,
+                                      fontSize: 14.0,
                                     ),
-                                    GlassCard(
-                                      padding: EdgeInsets.zero,
+                                  ),
+                                )
+                              : ListView.separated(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  itemCount: filtered.length,
+                                  separatorBuilder: (_, __) =>
+                                      const SizedBox(height: 4.0),
+                                  itemBuilder: (context, bibleIndex) {
+                                    final bibleItem = filtered[bibleIndex];
+                                    final abbreviationLocal = getJsonField(
+                                      bibleItem,
+                                      r'''$.abbreviationLocal''',
+                                    ).toString();
+                                    final name = getJsonField(
+                                      bibleItem,
+                                      r'''$.name''',
+                                    ).toString();
+                                    final showAudio = hasAudio(bibleItem);
+
+                                    return GlassButton.custom(
+                                      onTap: () async {
+                                        HapticFeedback.lightImpact();
+
+                                        context.pushNamed(
+                                          BooksWidget.routeName,
+                                          queryParameters: {
+                                            'title': serializeParam(
+                                              name,
+                                              ParamType.String,
+                                            ),
+                                            'bibleid': serializeParam(
+                                              getJsonField(
+                                                bibleItem,
+                                                r'''$.id''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),
+                                            'version': serializeParam(
+                                              abbreviationLocal,
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      },
                                       useOwnLayer: true,
-                                      quality: GlassQuality.standard,
+                                      width: double.infinity,
                                       shape: const LiquidRoundedRectangle(
-                                        borderRadius: 20.0,
-                                      ),
-                                      settings: LiquidGlassSettings(
-                                        glassColor: tileBg.withValues(
-                                            alpha: tileBgAlpha),
-                                        standardOpacityMultiplier: 1.0,
-                                        thickness: 40,
-                                        blur: 16.0,
-                                        whitenStrength: 0.0,
-                                        glowIntensity: 0.0,
-                                        fresnelStrength: 0.2,
-                                        ambientRim: 0.05,
-                                        lightIntensity: 0.6,
-                                        refractiveIndex: 1.3,
-                                        shadowElevation: 0.0,
-                                      ),
+                                          borderRadius: 14.0),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0, vertical: 8.0),
+                                        child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              name,
-                                              textAlign: TextAlign.center,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.interTight(
-                                                color: tileTextColor,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.w700,
-                                                height: 1.15,
+                                            Container(
+                                              width: 52.0,
+                                              height: 52.0,
+                                              decoration: BoxDecoration(
+                                                color: badgeBg,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              alignment: Alignment.center,
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Text(
+                                                abbreviationLocal.toUpperCase(),
+                                                textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.inter(
+                                                  color: secondaryTextColor,
+                                                  fontSize: 9.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.2,
+                                                ),
                                               ),
                                             ),
-                                            const SizedBox(height: 4.0),
-                                            Text(
-                                              subtitle,
-                                              textAlign: TextAlign.center,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.inter(
-                                                color: tileSubTextColor,
-                                                fontSize: 9.0,
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing: 0.3,
+                                            const SizedBox(width: 14.0),
+                                            Expanded(
+                                              child: Text(
+                                                name,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.interTight(
+                                                  color: primaryTextColor,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
+                                            ),
+                                            if (showAudio) ...[
+                                              Icon(
+                                                Icons.volume_up_rounded,
+                                                color: secondaryTextColor,
+                                                size: 18.0,
+                                              ),
+                                              const SizedBox(width: 8.0),
+                                            ],
+                                            Icon(
+                                              Icons.chevron_right_rounded,
+                                              color: secondaryTextColor,
+                                              size: 22.0,
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ).animateOnPageLoad(animationsMap[
+                                        'containerOnPageLoadAnimation']!);
+                                  },
                                 ),
-                              ),
-                            ).animateOnPageLoad(
-                                animationsMap['containerOnPageLoadAnimation']!);
-                          }
-
-                          return CustomScrollView(
-                            slivers: [
-                              if (popular.isNotEmpty) ...[
-                                SliverToBoxAdapter(
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 0.0, 2.0, 8.0),
-                                    child: Text(
-                                      'Popular',
-                                      style: GoogleFonts.interTight(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SliverToBoxAdapter(
-                                  child: SizedBox(
-                                    height: 108.0,
-                                    child: ListView.separated(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: popular.length,
-                                      separatorBuilder: (_, __) =>
-                                          const SizedBox(width: 12.0),
-                                      itemBuilder: (context, i) => SizedBox(
-                                        width: 108.0,
-                                        child: buildTile(popular[i]),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SliverToBoxAdapter(
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsetsDirectional.fromSTEB(
-                                            2.0, 18.0, 2.0, 8.0),
-                                    child: Text(
-                                      'All Versions',
-                                      style: GoogleFonts.interTight(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              if (filtered.isEmpty)
-                                SliverFillRemaining(
-                                  hasScrollBody: false,
-                                  child: Center(
-                                    child: Text(
-                                      'No Bible versions match "$_searchQuery"',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.inter(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              else
-                                SliverGrid(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: 12.0,
-                                    mainAxisSpacing: 12.0,
-                                    childAspectRatio: 1.0,
-                                  ),
-                                  delegate: SliverChildBuilderDelegate(
-                                    (context, index) =>
-                                        buildTile(filtered[index]),
-                                    childCount: filtered.length,
-                                  ),
-                                ),
-                              const SliverToBoxAdapter(
-                                  child: SizedBox(height: 10.0)),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             ),

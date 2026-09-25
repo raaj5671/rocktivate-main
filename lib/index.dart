@@ -37,4 +37,5 @@ export '/bible/bibles/bibles_widget.dart' show BiblesWidget;
 export '/bible/books/books_widget.dart' show BooksWidget;
 export '/bible/chapters/chapters_widget.dart' show ChaptersWidget;
 export '/bible/chapter_data/chapter_data_widget.dart' show ChapterDataWidget;
+export '/bible/saved_verses/saved_verses_widget.dart' show SavedVersesWidget;
 export '/search/search_widget.dart' show SearchWidget;

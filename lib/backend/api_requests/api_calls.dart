@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
+import 'api_secrets.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
 
@@ -18,6 +19,8 @@ class BibleAPIGroup {
   static BooksCall booksCall = BooksCall();
   static ChapterCall chapterCall = ChapterCall();
   static ChapterDataCall chapterDataCall = ChapterDataCall();
+  static SearchCall searchCall = SearchCall();
+  static VerseCall verseCall = VerseCall();
 }
 
 class BiblesCall {
@@ -85,12 +88,14 @@ class BooksCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Books',
-      apiUrl: '${baseUrl}bibles/$bibleID/books',
+      apiUrl: '${baseUrl}bibles/${bibleID}/books',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
       },
-      params: {},
+      params: {
+        'include-chapters': 'true',
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -143,7 +148,7 @@ class ChapterCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'Chapter',
-      apiUrl: '${baseUrl}bibles/$bibleID/books/$bookID/chapters',
+      apiUrl: '${baseUrl}bibles/${bibleID}/books/${bookID}/chapters',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
@@ -192,7 +197,7 @@ class ChapterDataCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'ChapterData',
-      apiUrl: '${baseUrl}bibles/$bibleID/chapters/$chapterID',
+      apiUrl: '${baseUrl}bibles/${bibleID}/chapters/${chapterID}',
       callType: ApiCallType.GET,
       headers: {
         'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
@@ -237,33 +242,112 @@ class ChapterDataCall {
       ));
 }
 
+class SearchCall {
+  Future<ApiCallResponse> call({
+    String? bibleID = '',
+    String? query = '',
+  }) async {
+    final baseUrl = BibleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Search',
+      apiUrl: '${baseUrl}bibles/${bibleID}/search',
+      callType: ApiCallType.GET,
+      headers: {
+        'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
+      },
+      params: {
+        'query': query,
+        'limit': '20',
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? verses(dynamic response) => getJsonField(
+        response,
+        r'''$.data.verses''',
+        true,
+      ) as List?;
+}
+
+class VerseCall {
+  Future<ApiCallResponse> call({
+    String? bibleID = '',
+    String? verseID = '',
+  }) async {
+    final baseUrl = BibleAPIGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Verse',
+      apiUrl: '${baseUrl}bibles/${bibleID}/verses/${verseID}',
+      callType: ApiCallType.GET,
+      headers: {
+        'api-key': 'QK2RbB3vPy_TIO7IhXuPf',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? content(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.data.content''',
+      ));
+  String? reference(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.data.reference''',
+      ));
+}
+
 /// End Bible API Group Code
 
+// Despite the name (kept as-is so every call site — AIResponseWidget, the
+// Bible feature's Ask AI / Compare actions — didn't need touching), this now
+// calls Anthropic's Claude Messages API rather than OpenAI's.
 class ChatGPTCall {
   static Future<ApiCallResponse> call({
     String? userPrompt = '',
+    // Full multi-turn conversation as {'role': 'user'|'assistant', 'content':
+    // text} entries. When provided, this replaces userPrompt entirely (lets
+    // a chat UI send its whole history for follow-up context) — omit it for
+    // the original single-question behavior.
+    List<Map<String, String>>? history,
   }) async {
+    final turns = history ??
+        [
+          {'role': 'user', 'content': userPrompt ?? ''}
+        ];
+    final messagesJson = turns
+        .map((turn) => '{"role": "${turn['role']}", '
+            '"content": "${escapeStringForJson(turn['content'])}"}')
+        .join(',\n    ');
     final ffApiRequestBody = '''
 {
-  "model": "gpt-4o-mini",
+  "model": "claude-haiku-4-5-20251001",
+  "max_tokens": 1024,
+  "system": "You are a helpful assistant. You must always respond as a bible scholor with helpful biblically corrrect and thologically correct information",
   "messages": [
-    {
-      "role": "system",
-      "content": "You are a helpful assistant. You must always respond as a bible scholor with helpful biblically corrrect and thologically correct information"
-    },
-    {
-      "role": "user",
-      "content": "${escapeStringForJson(userPrompt)}"
-    }
+    $messagesJson
   ]
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'ChatGPT',
-      apiUrl: 'https://api.openai.com/v1/chat/completions',
+      apiUrl: 'https://api.anthropic.com/v1/messages',
       callType: ApiCallType.POST,
       headers: {
-        'Authorization':
-            'Bearer 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',
+        'x-api-key': claudeApiKey,
+        'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json',
       },
       params: {},
@@ -281,7 +365,7 @@ class ChatGPTCall {
   static String? aIResponse(dynamic response) =>
       castToType<String>(getJsonField(
         response,
-        r'''$.choices[:].message.content''',
+        r'''$.content[:].text''',
       ));
 }
 

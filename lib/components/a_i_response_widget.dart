@@ -151,7 +151,8 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Column(
+                  Expanded(
+                    child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -210,6 +211,7 @@ class _AIResponseWidgetState extends State<AIResponseWidget> with RouteAware {
                         ),
                       ),
                     ],
+                    ),
                   ),
                 ],
               ),

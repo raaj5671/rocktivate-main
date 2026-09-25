@@ -365,6 +365,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const BiblesWidget(),
         ),
         FFRoute(
+          name: SavedVersesWidget.routeName,
+          path: SavedVersesWidget.routePath,
+          builder: (context, params) => const SavedVersesWidget(),
+        ),
+        FFRoute(
           name: BooksWidget.routeName,
           path: BooksWidget.routePath,
           builder: (context, params) => BooksWidget(
@@ -374,6 +379,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ),
             bibleid: params.getParam(
               'bibleid',
+              ParamType.String,
+            ),
+            version: params.getParam(
+              'version',
+              ParamType.String,
+            ),
+            initialBookId: params.getParam(
+              'initialBookId',
+              ParamType.String,
+            ),
+            initialChapterNumber: params.getParam(
+              'initialChapterNumber',
               ParamType.String,
             ),
           ),
@@ -414,6 +431,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ),
             chapterid: params.getParam(
               'chapterid',
+              ParamType.String,
+            ),
+            version: params.getParam(
+              'version',
               ParamType.String,
             ),
           ),

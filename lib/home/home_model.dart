@@ -12,8 +12,8 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   String? Function(BuildContext, String?)?
       textFieldAIQuestionTextControllerValidator;
 
-  // State field for the mood wheel selection.
-  String selectedMood = 'Bless';
+  // State field for the mood picker selection.
+  String selectedMood = 'Hopeful';
 
   final Map<String, DebugDataField> debugGeneratorVariables = {};
   final Map<String, DebugDataField> debugBackendQueries = {};

@@ -62,3 +62,6 @@ DerivedData/
 
 # Coverage
 coverage/
+
+# Local-only secrets — never committed
+lib/backend/api_requests/api_secrets.dart

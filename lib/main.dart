@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollDirection;
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -218,6 +219,13 @@ class NavBarPage extends StatefulWidget {
   final Widget? page;
   final bool disableResizeToAvoidBottomInset;
 
+  /// Lets a screen pushed on top of this one (e.g. the Bible reader, which
+  /// renders its own copy of this tab bar) switch this still-alive
+  /// [NavBarPage] instance's selected tab before popping back to it —
+  /// avoids losing tab state by pushing a brand new [NavBarPage].
+  static final ValueNotifier<String?> requestedTab =
+      ValueNotifier<String?>(null);
+
   @override
   _NavBarPageState createState() => _NavBarPageState();
 }
@@ -227,12 +235,61 @@ class _NavBarPageState extends State<NavBarPage> {
   String _currentPageName = 'Home';
   late Widget? _currentPage;
 
+  // Auto-hide/show for the bottom nav bar as the active tab's content
+  // scrolls: hidden only while actively scrolling down. It reappears the
+  // moment scrolling stops (idle) or reverses (scrolling up), and is always
+  // forced visible at the very top/bottom of the scroll — so a scroll that
+  // stops mid-list never leaves it stuck hidden.
+  bool _navBarVisible = true;
+
+  bool _handleNavBarScrollNotification(ScrollNotification notification) {
+    final metrics = notification.metrics;
+    if (metrics.axis != Axis.vertical) return false;
+    if (notification.depth != 0) return false;
+
+    final atEdge = metrics.pixels <= metrics.minScrollExtent + 4.0 ||
+        metrics.pixels >= metrics.maxScrollExtent - 4.0;
+
+    if (notification is UserScrollNotification) {
+      final direction = notification.direction;
+      final shouldShow = atEdge ||
+          direction == ScrollDirection.idle ||
+          direction == ScrollDirection.forward;
+      if (shouldShow) {
+        if (!_navBarVisible) safeSetState(() => _navBarVisible = true);
+      } else if (direction == ScrollDirection.reverse) {
+        if (_navBarVisible) safeSetState(() => _navBarVisible = false);
+      }
+    } else if (atEdge && !_navBarVisible) {
+      safeSetState(() => _navBarVisible = true);
+    }
+    return false;
+  }
+
   @override
   void initState() {
     super.initState();
     _currentPageName = widget.initialPage ?? _currentPageName;
     _currentPage = widget.page;
     _hydrateLoggedInUserIfNeeded();
+    NavBarPage.requestedTab.addListener(_handleRequestedTab);
+  }
+
+  @override
+  void dispose() {
+    NavBarPage.requestedTab.removeListener(_handleRequestedTab);
+    super.dispose();
+  }
+
+  void _handleRequestedTab() {
+    final tab = NavBarPage.requestedTab.value;
+    if (tab == null) return;
+    NavBarPage.requestedTab.value = null;
+    if (!mounted) return;
+    safeSetState(() {
+      _currentPage = null;
+      _currentPageName = tab;
+    });
   }
 
   // If the Supabase session was restored without going through the login
@@ -285,42 +342,58 @@ class _NavBarPageState extends State<NavBarPage> {
       return GlassScaffold(
         resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: _currentPage ?? tabs[_currentPageName]!,
+        body: NotificationListener<ScrollNotification>(
+          onNotification: _handleNavBarScrollNotification,
+          child: _currentPage ?? tabs[_currentPageName]!,
+        ),
         bottomBar: Visibility(
           visible: responsiveVisibility(
             context: context,
             desktop: false,
           ),
-          child: GlassTabBar.bottom(
-            selectedIndex: currentIndex,
-            onTabSelected: (i) => safeSetState(() {
-              _currentPage = null;
-              _currentPageName = tabs.keys.toList()[i];
-            }),
-            selectedIconColor: FlutterFlowTheme.of(context).secondary,
-            unselectedIconColor: FlutterFlowTheme.of(context).secondaryText,
-            tabs: const [
-              GlassTab(
-                icon: FaIcon(FontAwesomeIcons.home, size: 24.0),
-                semanticLabel: 'Home',
+          child: AnimatedSlide(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            offset: _navBarVisible ? Offset.zero : const Offset(0, 1.4),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: _navBarVisible ? 1.0 : 0.0,
+              child: IgnorePointer(
+                ignoring: !_navBarVisible,
+                child: GlassTabBar.bottom(
+                  selectedIndex: currentIndex,
+                  onTabSelected: (i) => safeSetState(() {
+                    _currentPage = null;
+                    _currentPageName = tabs.keys.toList()[i];
+                  }),
+                  selectedIconColor: FlutterFlowTheme.of(context).secondary,
+                  unselectedIconColor:
+                      FlutterFlowTheme.of(context).secondaryText,
+                  tabs: const [
+                    GlassTab(
+                      icon: FaIcon(FontAwesomeIcons.home, size: 24.0),
+                      semanticLabel: 'Home',
+                    ),
+                    GlassTab(
+                      icon: FaIcon(FontAwesomeIcons.search, size: 24.0),
+                      semanticLabel: 'Search',
+                    ),
+                    GlassTab(
+                      icon: FaIcon(FontAwesomeIcons.stream, size: 24.0),
+                      semanticLabel: 'Feed',
+                    ),
+                    GlassTab(
+                      icon: FaIcon(FontAwesomeIcons.comment, size: 24.0),
+                      semanticLabel: 'Messages',
+                    ),
+                    GlassTab(
+                      icon: Icon(Icons.person_rounded, size: 28.0),
+                      semanticLabel: 'Profile',
+                    ),
+                  ],
+                ),
               ),
-              GlassTab(
-                icon: FaIcon(FontAwesomeIcons.search, size: 24.0),
-                semanticLabel: 'Search',
-              ),
-              GlassTab(
-                icon: FaIcon(FontAwesomeIcons.stream, size: 24.0),
-                semanticLabel: 'Feed',
-              ),
-              GlassTab(
-                icon: FaIcon(FontAwesomeIcons.comment, size: 24.0),
-                semanticLabel: 'Messages',
-              ),
-              GlassTab(
-                icon: Icon(Icons.person_rounded, size: 28.0),
-                semanticLabel: 'Profile',
-              ),
-            ],
+            ),
           ),
         ),
       );
@@ -328,66 +401,81 @@ class _NavBarPageState extends State<NavBarPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: !widget.disableResizeToAvoidBottomInset,
-      body: _currentPage ?? tabs[_currentPageName],
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _handleNavBarScrollNotification,
+        child: _currentPage ?? tabs[_currentPageName]!,
+      ),
       bottomNavigationBar: Visibility(
         visible: responsiveVisibility(
           context: context,
           desktop: false,
         ),
-        child: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (i) => safeSetState(() {
-            _currentPage = null;
-            _currentPageName = tabs.keys.toList()[i];
-          }),
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-          selectedItemColor: FlutterFlowTheme.of(context).secondary,
-          unselectedItemColor: FlutterFlowTheme.of(context).secondaryText,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.home,
-                size: 24.0,
+        child: AnimatedSlide(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          offset: _navBarVisible ? Offset.zero : const Offset(0, 1.4),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 200),
+            opacity: _navBarVisible ? 1.0 : 0.0,
+            child: IgnorePointer(
+              ignoring: !_navBarVisible,
+              child: BottomNavigationBar(
+                currentIndex: currentIndex,
+                onTap: (i) => safeSetState(() {
+                  _currentPage = null;
+                  _currentPageName = tabs.keys.toList()[i];
+                }),
+                backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+                selectedItemColor: FlutterFlowTheme.of(context).secondary,
+                unselectedItemColor: FlutterFlowTheme.of(context).secondaryText,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                type: BottomNavigationBarType.fixed,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.home,
+                      size: 24.0,
+                    ),
+                    label: 'Home',
+                    tooltip: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.search,
+                      size: 24.0,
+                    ),
+                    label: 'Home',
+                    tooltip: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.stream,
+                      size: 24.0,
+                    ),
+                    label: 'Home',
+                    tooltip: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.comment,
+                      size: 24.0,
+                    ),
+                    label: 'Home',
+                    tooltip: '',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.person_rounded,
+                      size: 28.0,
+                    ),
+                    label: 'Home',
+                    tooltip: '',
+                  )
+                ],
               ),
-              label: 'Home',
-              tooltip: '',
             ),
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.search,
-                size: 24.0,
-              ),
-              label: 'Home',
-              tooltip: '',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.stream,
-                size: 24.0,
-              ),
-              label: 'Home',
-              tooltip: '',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.comment,
-                size: 24.0,
-              ),
-              label: 'Home',
-              tooltip: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_rounded,
-                size: 28.0,
-              ),
-              label: 'Home',
-              tooltip: '',
-            )
-          ],
+          ),
         ),
       ),
     );
